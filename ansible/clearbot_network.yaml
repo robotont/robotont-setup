@@ -1,0 +1,47 @@
+---
+- hosts: clearbots
+  remote_user: kasutaja
+  tasks:
+
+    become: true
+    apt:
+      name: hostapd
+      update_cache: yes
+
+
+  - name: Make sure hostapd, and dnsmasq packages are installed
+    apt:
+      name: "{{ packages }}"
+    become: true
+    vars:
+      packages:
+        - hostapd
+        - dnsmasq
+
+  #TODO copy hostapd configuration files
+  #- name: Copy .rosinstall file with owner and permissions
+  #  copy:
+  #    src: .rosinstall
+  #    dest: /home/kasutaja/catkin_ws/src/.rosinstall
+  #    owner: kasutaja
+  #    group: kasutaja
+  #    mode: '0644'
+  #
+  #TODO copy dnsmasq configuration
+
+
+  - name: Remove network-manager
+    apt:
+      name: network-manager
+      purge: yes
+    become: true
+
+
+
+  # The following tasks are experemental
+
+  # Solution to an issue as detailed here: https://answers.ros.org/question/201225/roscore-fails-to-start/
+  #  - name: Add the correct ros_hostname
+  #    lineinfile:
+  #      path: /home/kasutaja/.bashrc
+  #      line: 'export ROS_HOSTNAME=localhost'

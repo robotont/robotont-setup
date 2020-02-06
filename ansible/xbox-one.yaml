@@ -1,0 +1,22 @@
+---
+- hosts: clearbots
+  remote_user: kasutaja
+  tasks:
+
+  - name: Install sysfsutils
+    apt:
+      name: sysfsutils
+    become: yes
+
+  - name: Bluetooth - Disable ertm 
+    lineinfile:
+      path: /etc/sysfs.conf
+      line: /module/bluetooth/parameters/disable_ertm=1
+    become: yes
+    tags:
+      - untested
+        
+  # TODO: Only reboot when last task changed something
+  - name: Unconditionally reboot the machine with all defaults
+    reboot:
+    become: yes
