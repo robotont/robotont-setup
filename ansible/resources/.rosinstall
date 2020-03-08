@@ -1,0 +1,36 @@
+- git:
+    local-name: robotont/robotont_driver
+    uri: https://github.com/robotont/robotont_driver.git
+- git:
+    local-name: robotont/robotont_description
+    uri: https://github.com/robotont/robotont_description.git
+- git:
+    local-name: robotont/robotont_tutorials
+    uri: https://github.com/robotont/robotont_tutorials.git
+- git:
+    local-name: robotont/robotont_gazebo
+    uri: https://github.com/robotont/robotont_gazebo.git
+- git:
+    local-name: robotont/robotont_navigation
+    uri: https://github.com/robotont/robotont_navigation.git
+- git:
+    local-name: robotont/robotont_support
+    uri: https://github.com/robotont/robotont_support.git
+#- git:
+#    local-name: cartographer
+#    uri: 'https://github.com/googlecartographer/cartographer.git'
+#    version: '1.0.0'
+#- git:
+#    local-name: cartographer_ros
+#    uri: 'https://github.com/googlecartographer/cartographer_ros.git'
+#    version: '1.0.0'
+#- git:
+#    local-name: ceres-solver
+#    uri: 'https://ceres-solver.googlesource.com/ceres-solver.git'
+#    version: '1.13.0'
+#- git:
+#    local-name: depth_nav_tools
+#    uri: https://github.com/mdrwiega/depth_nav_tools.git
+#- git:
+#    local-name: ros-training-solutions
+#    uri: https://github.com/ut-ims-robotics-private/ros-training-solutions.git

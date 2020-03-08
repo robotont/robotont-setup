@@ -1,34 +1,33 @@
 [clearbots]
-clearbot-1
-clearbot-2
-clearbot-3
-clearbot-4
-clearbot-5
-clearbot-6
-clearbot-7
-clearbot-8
-clearbot-9
-clearbot-10
-clearbot-11
-clearbot-12
-clearbot-13
-clearbot-14
-clearbot-15
-
+#clearbot-1 clearbot_id=1
+#clearbot-2 clearbot_id=2
+#clearbot-3 clearbot_id=3
+#clearbot-4 clearbot_id=4
+#clearbot-5 clearbot_id=5
+#clearbot-6 clearbot_id=6
+#clearbot-7 clearbot_id=7
+#clearbot-8 clearbot_id=8
+#clearbot-9 clearbot_id=9
+#clearbot-10 clearbot_id=10
+#clearbot-11 clearbot_id=11
+#clearbot-12 clearbot_id=12
+#clearbot-13 clearbot_id=13
+#clearbot-14 clearbot_id=14
+#clearbot-15 clearbot_id=15
 
 [laptops]
-laptop-1
-laptop-2
-laptop-3
-laptop-4
-laptop-5
-laptop-6
-laptop-7
-laptop-8
-laptop-9
-laptop-10
-laptop-11
-laptop-12
-laptop-13
-laptop-14
-laptop-15
+#laptop-1 clearbot_id=1
+#laptop-2 clearbot_id=2
+#laptop-3 clearbot_id=3
+#laptop-4 clearbot_id=4
+#laptop-5 clearbot_id=5
+#laptop-6 clearbot_id=6
+#laptop-7 clearbot_id=7
+#laptop-8 clearbot_id=8
+#laptop-9 clearbot_id=9
+#laptop-10 clearbot_id=10
+#laptop-11 clearbot_id=11
+#laptop-12 clearbot_id=12
+#laptop-13 clearbot_id=13
+#laptop-14 clearbot_id=14
+#laptop-15 clearbot_id=15

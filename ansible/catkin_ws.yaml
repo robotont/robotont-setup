@@ -62,7 +62,7 @@
 
   - name: Copy .rosinstall file with owner and permissions
     copy:
-      src: .rosinstall
+      src: resources/.rosinstall
       dest: /home/kasutaja/catkin_ws/src/.rosinstall
       owner: kasutaja
       group: kasutaja

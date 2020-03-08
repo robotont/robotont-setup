@@ -1,0 +1,22 @@
+---
+- hosts: clearbots
+  remote_user: kasutaja
+
+  tasks:
+  - name: Update hostname to clearbot-{{ clearbot_id }}
+    hostname:
+      name: "clearbot-{{ clearbot_id }}"
+    become: true
+
+  - name: Update /etc/hosts
+    template:
+      src: hosts.j2
+      dest: /etc/hosts
+      owner: root
+      group: root
+      mode: '0644'
+    become: true
+
+  - name: Unconditionally reboot the machine with all defaults
+    reboot:
+    become: yes
