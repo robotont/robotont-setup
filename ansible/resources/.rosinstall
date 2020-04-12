@@ -16,6 +16,10 @@
 - git:
     local-name: robotont/robotont_support
     uri: https://github.com/robotont/robotont_support.git
+- git:
+    local-name: realsense-ros
+    uri: https://github.com/IntelRealSense/realsense-ros.git
+    version: 'development'
 #- git:
 #    local-name: cartographer
 #    uri: 'https://github.com/googlecartographer/cartographer.git'

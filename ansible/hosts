@@ -1,5 +1,6 @@
 [clearbots]
-#clearbot-1 clearbot_id=1
+192.168.1.201 clearbot_id=1 ansible_user=clearbot
+#clearbot-1 clearbot_id=1 ansible_user=clearbot
 #clearbot-2 clearbot_id=2
 #clearbot-3 clearbot_id=3
 #clearbot-4 clearbot_id=4

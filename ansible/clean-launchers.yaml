@@ -1,0 +1,11 @@
+---
+- hosts: clearbots
+  remote_user: "{{ ansible_user }}"
+
+  tasks:
+  - name: debug
+    debug:
+      var: ansible_user
+  - name: Cleaning up launcher icons
+    command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
+
