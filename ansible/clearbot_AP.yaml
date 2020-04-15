@@ -1,6 +1,6 @@
 ---
 - hosts: clearbots
-  remote_user: kasutaja
+  remote_user: "{{ ansible_user }}"
 
   #Ask for wifi password
   vars_prompt:
@@ -9,6 +9,15 @@
     private: no
 
   tasks:
+  - name: Set google nameserver for apt.
+    copy:
+      src: resources/resolv.conf
+      dest: /etc/resolv.conf
+      owner: root
+      group: root
+      mode: '0644'
+    become: true
+
   - name: Installing hostapd, and dnsmasq packages
     apt:
       name: "{{ packages }}"
@@ -20,7 +29,7 @@
 
   - name: Configuring /etc/network/interfaces
     template:
-      src: interfaces.j2
+      src: interfaces_AP.j2
       dest: /etc/network/interfaces
       owner: root
       group: root
@@ -51,19 +60,29 @@
       mode: '0644'
     become: true
 
-    #  - name: Stopping NetworkManager service
-    #    service:
-    #      name: NetworkManager
-    #      state: stopped
-    #      enabled: no
-    #    become: true
-
-  - name: Remove network-manager
-    apt:
-      name: network-manager
-      state: absent
-      purge: yes
+  - name: Disable builtin NetworkManager services
+    service:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
+    loop:
+      - NetworkManager
+      - NetworkManager-dispatcher
     become: true
+
+  - name: Mask builtin NetworkManager to prevent re-enabling
+    command: systemctl mask {{ item }}
+    loop:
+      - NetworkManager
+      - NetworkManager-dispatcher
+    become: true
+
+    #  - name: Remove network-manager
+    #    apt:
+    #      name: network-manager
+    #      state: absent
+    #      purge: yes
+    #    become: true
 
   - name: Unmask hostapd
     command: systemctl unmask hostapd

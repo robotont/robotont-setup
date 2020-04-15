@@ -1,0 +1,92 @@
+---
+- hosts: clearbots
+  remote_user: "{{ ansible_user }}"
+
+  #Ask for wifi password
+  vars_prompt:
+  - name: clearbot_wifi_pass
+    prompt: "Password for clearbot-0 WiFi:"
+    private: no
+
+  tasks:
+
+  - name: Turn off wifi power saving
+    lineinfile:
+      path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+      regexp: '^wifi.powersave ='
+      line: wifi.powersave = 2
+    become: true
+
+  - name: Installing hostapd, and dnsmasq packages
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+        - hostapd
+        - dnsmasq
+    become: true
+
+  - name: Configuring /etc/network/interfaces
+    template:
+      src: interfaces_NetworkManager.j2
+      dest: /etc/network/interfaces
+      owner: root
+      group: root
+      mode: '0644'
+    become: true
+
+  - name: Configuring /etc/netplan/01-network-manager-all.yaml
+    template:
+      src: netplan_NetworkManager.yaml.j2
+      dest: /etc/netplan/01-network-manager-all.yaml
+      owner: root
+      group: root
+      mode: '0644'
+    become: true
+
+  - name: UnMask builtin NetworkManager
+    command: systemctl unmask {{ item }}
+    loop:
+      - NetworkManager
+      - NetworkManager-dispatcher
+    become: true
+
+  - name: Enable builtin NetworkManager services
+    service:
+      name: "{{ item }}"
+      #    state: started
+      enabled: yes
+    loop:
+      - NetworkManager
+      - NetworkManager-dispatcher
+    become: true
+
+  - name: Enable systemd-resolve.service
+    service:
+      name: systemd-resolved
+      state: started
+      enabled: yes
+    become: true
+
+  - name: Mask hostapd
+    command: systemctl mask hostapd
+    become: true
+
+  - name: Disable dnsmasq and hostapd services
+    service:
+      name: "{{ item }}"
+      #      state: restarted
+      enabled: no
+    loop:
+      - hostapd
+      - dnsmasq
+    become: true
+
+  - name: Apply netplan
+    command: netplan apply
+    become: true
+
+
+    #  - name: Unconditionally reboot the machine with all defaults
+    #    reboot:
+    #    become: yes
