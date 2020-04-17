@@ -1,0 +1,14 @@
+[Unit]
+Description=Start Clearbot ROS bringup nodes
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "source /home/{{ ansible_user }}/catkin_ws/devel/setup.bash && roslaunch robotont_support robotont_bringup.launch"
+WorkingDirectory=/home/{{ ansible_user }}
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User={{ ansible_user }}
+
+[Install]
+WantedBy=multi-user.target

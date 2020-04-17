@@ -1,11 +1,11 @@
 ---
 - hosts: clearbots
-  remote_user: kasutaja
+  remote_user: "{{ ansible_user }}"
 
   tasks:
   - name: Set up a systemd service for clearbot
-    copy:
-      src: resources/clearbot.service
+    template:
+      src: clearbot.service.j2
       dest: /lib/systemd/system/clearbot.service
       owner: root
       group: root
