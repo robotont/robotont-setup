@@ -1,5 +1,4 @@
----
-- hosts: clearbots
+- hosts: jetsonnanos
   remote_user: "{{ ansible_user }}"
   tasks:
 
