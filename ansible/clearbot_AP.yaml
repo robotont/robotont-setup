@@ -63,7 +63,7 @@
   - name: Disable builtin NetworkManager services
     service:
       name: "{{ item }}"
-      state: stopped
+      #state: stopped
       enabled: no
     loop:
       - NetworkManager
