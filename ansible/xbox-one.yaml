@@ -1,6 +1,6 @@
 ---
 - hosts: clearbots
-  remote_user: kasutaja
+  remote_user: "{{ ansible_user }}"
   tasks:
 
   - name: Install sysfsutils
