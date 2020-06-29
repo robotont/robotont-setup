@@ -1,6 +1,6 @@
 ---
 - hosts: jetsonnanos
-  remote_user: clearbot
+  remote_user: kasutaja
   tasks:
 
   - name: Add ROS keys
