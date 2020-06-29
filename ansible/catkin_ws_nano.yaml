@@ -29,6 +29,8 @@
         - ros-melodic-joy
         - ros-melodic-serial
         - ros-melodic-ddynamic-reconfigure
+        - ros-melodic-teleop-twist-keyboard
+        - ros-melodic-ar-track-alvar
         - librealsense2-dev
         - screen
         - vim
