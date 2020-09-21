@@ -8,13 +8,13 @@ domain-needed
 bogus-priv
 strict-order
 expand-hosts
-domain=clearbot.local
+domain=robots.local
 
 # DHCP
 dhcp-range=192.168.200.100,192.168.200.200,12h
 dhcp-option=option:netmask,255.255.255.0
-dhcp-option=option:router,192.168.200.{{ clearbot_id }}
-dhcp-option=option:dns-server,8.8.8.8
+dhcp-option=option:router,192.168.200.{{ id }}
+dhcp-option=option:dns-server,192.168.200.{{ id }}
 
 
 
