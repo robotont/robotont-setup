@@ -1,7 +1,7 @@
 ---
-- hosts: clearbots
-  remote_user: kasutaja
+- hosts: all
+  remote_user: "{{ ansible_user }}"
   tasks:
     - name: test connection
       ping:
-      remote_user: kasutaja
+      remote_user: "{{ ansible_user }}"

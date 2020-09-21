@@ -1,0 +1,9 @@
+---
+#Laptop specific configuration
+- name: Install system essentials for the laptop
+  apt:
+    name: "{{ packages }}"
+  become: true
+  vars:
+    packages:
+      - ros-melodic-realsense2-description

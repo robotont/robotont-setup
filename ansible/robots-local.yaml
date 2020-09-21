@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: "{{ ansible_user }}"
+  roles:
+    - robots
+
+

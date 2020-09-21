@@ -1,0 +1,17 @@
+---
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Install common system essentials
+  apt:
+    name: "{{ packages }}"
+  become: true
+  vars:
+    packages:
+      - git
+      - vim
+
+

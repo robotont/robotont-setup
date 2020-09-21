@@ -1,0 +1,30 @@
+- git:
+    local-name: robotont/robotont_driver
+    uri: https://github.com/robotont/robotont_driver.git
+- git:
+    local-name: robotont/robotont_msgs
+    uri: https://github.com/robotont/robotont_msgs.git
+- git:
+    local-name: robotont/robotont_description
+    uri: https://github.com/robotont/robotont_description.git
+- git:
+    local-name: robotont/robotont_nuc_description
+    uri: https://github.com/robotont/robotont_nuc_description.git
+    version: 'melodic-devel-maarika'
+- git:
+    local-name: robotont/robotont_support
+    uri: https://github.com/robotont/robotont_support.git
+    version: 'melodic-devel-veiko'
+- git:
+    local-name: robotont/robotont_demos
+    uri: https://github.com/robotont/robotont_demos.git
+- git:
+    local-name: robotont/robotont_tutorials
+    uri: https://github.com/robotont/robotont_tutorials.git
+    version: 'melodic-devel-veiko'
+- git:
+    local-name: robotont/robotont_gazebo
+    uri: https://github.com/robotont/robotont_gazebo.git
+- git:
+    local-name: robotont/robotont_navigation
+    uri: https://github.com/robotont/robotont_navigation.git

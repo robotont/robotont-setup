@@ -1,34 +1,12 @@
-[clearbots]
-192.168.200.1 clearbot_id=1 ansible_user=clearbot
-#clearbot-1 clearbot_id=1 ansible_user=clearbot
-#clearbot-2 clearbot_id=2
-#clearbot-3 clearbot_id=3
-#clearbot-4 clearbot_id=4
-#clearbot-5 clearbot_id=5
-#clearbot-6 clearbot_id=6
-#clearbot-7 clearbot_id=7
-#clearbot-8 clearbot_id=8
-#clearbot-9 clearbot_id=9
-#clearbot-10 clearbot_id=10
-#clearbot-11 clearbot_id=11
-#clearbot-12 clearbot_id=12
-#clearbot-13 clearbot_id=13
-#clearbot-14 clearbot_id=14
-#clearbot-15 clearbot_id=15
+[local]
+#localhost id=1 ansible_connection=local ansible_user=kasutaja
+
+[robots]
+192.168.200.1 id=1 ansible_user=kasutaja
+#192.168.200.2 id=2 ansible_user=kasutaja
+#192.168.200.3 id=3 ansible_user=kasutaja
 
 [laptops]
-#laptop-1 clearbot_id=1
-#laptop-2 clearbot_id=2
-#laptop-3 clearbot_id=3
-#laptop-4 clearbot_id=4
-#laptop-5 clearbot_id=5
-#laptop-6 clearbot_id=6
-#laptop-7 clearbot_id=7
-#laptop-8 clearbot_id=8
-#laptop-9 clearbot_id=9
-#laptop-10 clearbot_id=10
-#laptop-11 clearbot_id=11
-#laptop-12 clearbot_id=12
-#laptop-13 clearbot_id=13
-#laptop-14 clearbot_id=14
-#laptop-15 clearbot_id=15
+192.168.200.101 id=1 ansible_user=kasutaja
+#laptop-2 id=2 ansible_user=kasutaja
+#laptop-3 id=3 ansible_user=kasutaja
