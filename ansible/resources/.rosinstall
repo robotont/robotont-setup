@@ -19,7 +19,6 @@
 - git:
     local-name: robotont/robotont_tutorials
     uri: https://github.com/robotont/robotont_tutorials.git
-    version: 'melodic-devel-veiko'
 - git:
     local-name: robotont/robotont_gazebo
     uri: https://github.com/robotont/robotont_gazebo.git

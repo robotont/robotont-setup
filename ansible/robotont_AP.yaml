@@ -1,11 +1,11 @@
 ---
-- hosts: clearbots
+- hosts: robots
   remote_user: "{{ ansible_user }}"
 
   #Ask for wifi password
   vars_prompt:
-  - name: clearbot_wifi_pass
-    prompt: "Password for clearbot WiFi:"
+  - name: robot_wifi_pass
+    prompt: "Password for the WiFi:"
     private: no
 
   tasks:

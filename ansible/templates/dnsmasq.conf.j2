@@ -1,7 +1,8 @@
 # Configuration file for dnsmasq.
 
 # Generic params
-interface=wlp58s0
+#interface=wlp58s0
+interface=wlp0s20f3
 listen-address=127.0.0.1
 port=53
 domain-needed
@@ -9,6 +10,8 @@ bogus-priv
 strict-order
 expand-hosts
 domain=robots.local
+server=8.8.8.8
+server=8.8.4.4
 
 # DHCP
 dhcp-range=192.168.200.100,192.168.200.200,12h

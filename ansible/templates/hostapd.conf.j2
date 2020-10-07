@@ -1,13 +1,14 @@
-interface=wlp58s0
+#interface=wlp58s0
+interface=wlp0s20f3
 driver=nl80211
 ssid={{ ansible_hostname }}
 hw_mode=g
-channel={{ (clearbot_id % 10) + 1 }}
+channel={{ (id % 10) + 1 }}
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=3
-wpa_passphrase={{ clearbot_wifi_pass }}
+wpa_passphrase={{ robot_wifi_pass }}
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP

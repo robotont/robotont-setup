@@ -1,12 +1,12 @@
 ---
-- hosts: clearbots
+- hosts: robots
   remote_user: "{{ ansible_user }}"
 
   tasks:
-  - name: Set up a systemd service for clearbot
+  - name: Set up a systemd service for Robotont
     template:
-      src: clearbot.service.j2
-      dest: /lib/systemd/system/clearbot.service
+      src: robotont.service.j2
+      dest: /lib/systemd/system/robotont.service
       owner: root
       group: root
       mode: '0644'
@@ -14,7 +14,7 @@
 
   - name: Enable and start the service
     service:
-      name: clearbot.service
+      name: robotont.service
       state: started
       enabled: yes
     become: true
