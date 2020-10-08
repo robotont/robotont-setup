@@ -6,13 +6,13 @@ allow-hotplug eno1
 iface eno1 inet dhcp
 
 #For ubuntu 16.04 7th gen NUC
-#auto wlp58s0
-#iface wlp58s0 inet static
-#  address 192.168.200.{{ id }}
-#  netmask 255.255.255.0
-
-#For ubuntu 18.04 10th gen NUC
-auto wlp0s20f3
-iface wlp0s20f3 inet static
+auto wlp58s0
+iface wlp58s0 inet static
   address 192.168.200.{{ id }}
   netmask 255.255.255.0
+
+#For ubuntu 18.04 10th gen NUC
+#auto wlp0s20f3
+#iface wlp0s20f3 inet static
+#  address 192.168.200.{{ id }}
+#  netmask 255.255.255.0

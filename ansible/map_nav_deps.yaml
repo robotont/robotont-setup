@@ -1,11 +1,17 @@
 ---
-- hosts: clearbots
+- hosts: robots
   remote_user: "{{ ansible_user }}"
   tasks:
 
   - name: Install dependencies needed for mapping and navigation.
     apt:
       update_cache: true
-      name: ros-melodic-rtabmap-ros ros-melodic-cartographer-ros ros-melodic-move-base ros-melodic-gmapping
-    become: yes
+      name: "{{ packages }}"
+    become: true
+    vars:
+      packages:
+        - ros-melodic-rtabmap-ros
+        - ros-melodic-cartographer-ros
+        - ros-melodic-move-base
+        - ros-melodic-gmapping
 

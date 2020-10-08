@@ -26,6 +26,7 @@
       - screen
       - ros-melodic-realsense2-camera
       - ros-melodic-librealsense2
+      - ros-melodic-depthimage-to-laserscan
 
 - name: Cleaning up launcher icons
   command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
