@@ -6,14 +6,17 @@ interface=wlp58s0
 listen-address=127.0.0.1
 port=53
 domain-needed
+no-resolv
 bogus-priv
 strict-order
 expand-hosts
+local=/robots.local/
 domain=robots.local
 server=8.8.8.8
 server=8.8.4.4
 
 # DHCP
+dhcp-authoritative
 dhcp-range=192.168.200.100,192.168.200.200,12h
 dhcp-option=option:netmask,255.255.255.0
 dhcp-option=option:router,192.168.200.{{ id }}
