@@ -30,7 +30,14 @@ To update all ubuntu packages run:
 sudo apt update
 sudo apt upgrade -y
 ```
-## Getting the latest catkin workspace for the robot
+## Getting the latest catkin workspace for working with Robotont
+
+.ROSINSTALL files:
+* [for the user pc](https://raw.githubusercontent.com/robotont/robotont-setup/melodic-devel/ansible/resources/.rosinstall)
+
+* [for the robot](https://raw.githubusercontent.com/robotont/robotont-setup/melodic-devel/ansible/resources/.rosinstall)
+
+
 Make a backup of the existing workspace:
 ```bash
 mv ~/catkin_ws ~/backup_ws
