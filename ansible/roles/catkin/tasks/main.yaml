@@ -44,7 +44,7 @@
     - untested
 
 - name: Update catkin workspace
-  shell: bash -ic 'wstool update -t src'
+  shell: bash -ic 'vcs import < .rosinstall'
   args:
     chdir: /home/{{ ansible_user }}/catkin_ws
   become_user: "{{ ansible_user }}"
