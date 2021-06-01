@@ -34,3 +34,8 @@
     local-name: robotont/robotont_navigation
     uri: https://github.com/robotont/robotont_navigation.git
     version: 'noetic-devel'
+- git:
+    local-name: robotont/ar_track_alvar
+    uri: https://github.com/machinekoder/ar_track_alvar.git
+    version: 'noetic-devel'
+    

@@ -37,3 +37,7 @@
 - git:
     local-name: robotont/serial
     uri: https://github.com/wjwwood/serial.git
+- git:
+    local-name: robotont/ar_track_alvar
+    uri: https://github.com/machinekoder/ar_track_alvar.git
+    version: 'noetic-devel'
