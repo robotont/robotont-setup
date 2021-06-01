@@ -1,10 +1,19 @@
 # Setup
-## Copying ssh keys
+## SSH part
+### Installing ssh on robot
 ```
-ssh-copy-id -i ~/.ssh/robotont_ed25519.pubssh_ed25519 peko@[ip_address]
+sudo apt install -y openssh-server
 ```
-## Installing on the robot
+### Generating keys
+```
+ssh-keygen -t ed25519 -f ~/.ssh/robotont_ed25519
+```
+### Copying ssh keys
+```
+ssh-copy-id -i ~/.ssh/robotont_ed25519 peko@[ip_address]
+```
 ### First configure ip in hosts file
+and then run
 ```
 ansible-playbook robots.yaml -K
 ```
