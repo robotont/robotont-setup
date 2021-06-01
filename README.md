@@ -1,4 +1,15 @@
-# robotont-setup
+# Setup
+## Copying ssh keys
+```
+ssh-copy-id -i ~/.ssh/robotont_ed25519.pubssh_ed25519 peko@[ip_address]
+```
+## Installing on the robot
+### First configure ip in hosts file
+```
+ansible-playbook robots.yaml -K
+```
+
+# Old robotont-setup
 Scripts and other stuff that does not belong to the catkin workspace
 
 # How to update robotont

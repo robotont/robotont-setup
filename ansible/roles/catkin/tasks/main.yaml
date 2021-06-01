@@ -38,7 +38,7 @@
 - name: Add ros default workspace to bashrc
   lineinfile:
     path: /home/{{ ansible_user }}/.bashrc
-    line: source /opt/ros/melodic/setup.bash
+    line: source /opt/ros/noetic/setup.bash
   become_user: "{{ ansible_user }}"
   tags:
     - untested

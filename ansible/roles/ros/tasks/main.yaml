@@ -8,7 +8,7 @@
 - name: Setup compute to accept software from packages.ros.org
   become: true
   apt_repository:
-    repo: deb http://packages.ros.org/ros/ubuntu bionic main
+    repo: deb http://packages.ros.org/ros/ubuntu focal main
     state: present
 
 - name: Update and upgrade apt packages
@@ -20,12 +20,12 @@
 - name: Full ROS installation
   become: true
   apt:
-    name: ros-melodic-desktop-full
+    name: ros-noetic-desktop-full
 
 - name: Install rosdep
   become: true
   apt:
-    name: python-rosdep
+    name: python3-rosdep
 
 - name: Check if rosdep has already been initalised
   stat:
@@ -43,7 +43,7 @@
 - name: Put the ROS setup script in bashrc
   lineinfile:
     path: /home/{{ ansible_user }}/.bashrc
-    line: 'source /opt/ros/melodic/setup.bash'
+    line: 'source /opt/ros/noetic/setup.bash'
 
 - name: Install dependencies for building ROS packages
   apt:
@@ -51,14 +51,14 @@
   become: true
   vars:
     packages:
-      - python-rosinstall
-      - python-rosinstall-generator
+      - python3-rosinstall
+      - python3-rosinstall-generator
       - python3-vcstool
       - build-essential
-      - python-catkin-tools
+      - python3-osrf-pycommon
+      - python3-catkin-tools
       - ros-noetic-joy
       - ros-noetic-ddynamic-reconfigure
       - ros-noetic-teleop-twist-keyboard
-      - ros-noetic-ar-track-alvar
       - ros-noetic-realsense2-description
       - ros-noetic-gmapping
