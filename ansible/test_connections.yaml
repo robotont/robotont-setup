@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: robots
   remote_user: "{{ ansible_user }}"
   tasks:
     - name: test connection

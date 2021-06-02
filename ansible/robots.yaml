@@ -1,6 +1,6 @@
 ---
 - hosts: robots
-  remote_user: "{{ ansible_user }}"
+  #remote_user: "{{ ansible_user }}"
   roles:
     - robots
 

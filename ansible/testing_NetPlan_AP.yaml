@@ -1,5 +1,5 @@
 ---
-- hosts: clearbots
+- hosts: robots
   remote_user: "{{ ansible_user }}"
 
   #Ask for wifi password
@@ -23,22 +23,22 @@
     vars:
       packages:
         - hostapd
-        - dnsmasq
+        #- dnsmasq
     become: true
 
-  - name: Configuring /etc/network/interfaces
-    template:
-      src: interfaces_NetworkManager.j2
-      dest: /etc/network/interfaces
-      owner: root
-      group: root
-      mode: '0644'
-    become: true
+ # - name: Configuring /etc/network/interfaces
+ #   template:
+ #     src: interfaces_NetworkManager.j2
+ #     dest: /etc/network/interfaces
+ #     owner: root
+ #     group: root
+ #     mode: '0644'
+ #   become: true
 
-  - name: Configuring /etc/netplan/01-network-manager-all.yaml
+  - name: Configuring /etc/netplan/network.yaml
     template:
-      src: netplan_NetworkManager.yaml.j2
-      dest: /etc/netplan/01-network-manager-all.yaml
+      src: Testik_netplan.j2
+      dest: /etc/netplan/network.yaml
       owner: root
       group: root
       mode: '0644'
@@ -82,7 +82,7 @@
       - dnsmasq
     become: true
 
-  - name: Apply netplan
+  - name: Generate netplan
     command: netplan generate
     become: true
     
@@ -90,7 +90,6 @@
     command: netplan apply
     become: true
 
-
-    #  - name: Unconditionally reboot the machine with all defaults
-    #    reboot:
-    #    become: yes
+#  - name: Unconditionally reboot the machine with all defaults
+#      reboot:
+#      become: yes

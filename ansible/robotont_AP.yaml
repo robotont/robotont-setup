@@ -114,6 +114,6 @@
       - dnsmasq
     become: true
 
-  - name: Unconditionally reboot the machine with all defaults
-    reboot:
-    become: yes
+#  - name: Unconditionally reboot the machine with all defaults
+#    reboot:
+#    become: yes

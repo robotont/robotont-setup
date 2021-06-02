@@ -6,7 +6,7 @@
   with_items:
       - "/home/{{ ansible_user }}/catkin_ws/build"
       - "/home/{{ ansible_user }}/catkin_ws/devel"
-      - "/home/{{ ansible_user }}/catkin_ws/log"
+      - "/home/{{ ansible_user }}/catkin_ws/logs"
 
 - name: make Catkin folders
   file:
