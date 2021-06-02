@@ -16,7 +16,6 @@ network:
       nameservers:
         addresses: [8.8.8.8]
       access-points:
-        "robotont-11":
+        "robotont-{{ id }}":
           mode: ap
-          password: "12345678"
-      
+          password: "{{ wifi_pass }}"
