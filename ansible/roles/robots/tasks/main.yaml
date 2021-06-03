@@ -16,6 +16,18 @@
     append: yes
   become: true
 
+- name: Rules for realsense download
+  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
+  become: true
+  
+- name: Rules for realsense reload
+  command: udevadm control --reload-rules
+  become: true
+  
+- name: Rules for realsense reigger
+  command: udevadm trigger
+  become: true
+  
 - name: Install system essentials for the robot
   apt:
     name: "{{ packages }}"
