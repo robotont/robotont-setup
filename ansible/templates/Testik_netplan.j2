@@ -2,20 +2,12 @@
 network:
   version: 2
   renderer: NetworkManager
-  ethernets:
-    eno1:
-      dhcp4: true
-      addresses: [192.168.100.{{ id }}/24]
-      optional: true
   wifis:
     wlp58s0:
       dhcp4: no
-      dhcp6: no
-      addresses: [192.168.200.{{ id }}/24]
-      gateway4: 192.168.200.250
-      nameservers:
-        addresses: [8.8.8.8]
+      addresses:
+        - 192.168.200.11/24
       access-points:
         "robotont-{{ id }}":
-          mode: ap
           password: "{{ wifi_pass }}"
+          mode: ap

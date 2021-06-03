@@ -4,4 +4,11 @@
   roles:
     - robots
 
-
+  #Ask for wifi password
+  
+#  tasks:
+#  - name: wifi_pass
+#    pause: 
+#   prompt: Password for robotont-{{ id }} WiFi
+#    echo: no
+#    register: wifi_pass

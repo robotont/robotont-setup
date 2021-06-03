@@ -13,10 +13,11 @@ ssh-keygen -t ed25519 -f ~/.ssh/robotont_ed25519
 ssh-copy-id -i ~/.ssh/robotont_ed25519 peko@[ip_address]
 ```
 ### First configure ip in hosts file
-and then run
+#### and then run
 ```
 ansible-playbook robots.yaml -K
 ```
+
 
 # Old robotont-setup
 Scripts and other stuff that does not belong to the catkin workspace

@@ -5,9 +5,9 @@
   #Ask for wifi password
   vars_prompt:
   - name: wifi_pass
-    prompt: "Password for robotont-{{ id }} WiFi"
+    prompt: Password for robotont-{{ id }} WiFi
     private: no
-
+    
   tasks:
   
   - name: Configuring /etc/netplan/01-network-manager-all.yaml
@@ -19,17 +19,27 @@
       mode: '0644'
     become: true
 
-  - name: Generate netplan
-    command: netplan generate
-    become: true
+#  - name: Generate netplan
+#    command: netplan generate
+#    become: true
     
   - name: Apply netplan
     command: netplan apply
     become: true
 
+#  - name: Apply connection
+#    command: nmcli connection delete Wired\ connection\ 1
+#    become: true
+
+
+#  - name: Remove previous
+#    command: nmcli --pretty --fields  UUID,TYPE, con show | grep -e wifi -e ethernet | awk '{print $1}' | while read line; do nmcli con delete uuid $line; done
+#    become: true
+   
   - name: Apply connection
     command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
     become: true
-#  - name: Unconditionally reboot the machine with all defaults
-#      reboot:
-#      become: yes
+    
+  - name: Unconditionally reboot the machine with all defaults
+    reboot:
+    become: yes

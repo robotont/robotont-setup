@@ -62,3 +62,8 @@
       - ros-noetic-teleop-twist-keyboard
       - ros-noetic-realsense2-description
       - ros-noetic-gmapping
+      - ros-noetic-move-base
+      - ros-noetic-amcl
+      - ros-noetic-map-server 
+      - ros-noetic-depthimage-to-laserscan
+
