@@ -59,6 +59,12 @@
     enabled: yes
   become: true
     
+- name: Turn off wifi power saving
+  lineinfile:
+    path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+    regexp: '^wifi.powersave ='
+    line: wifi.powersave = 2
+  become: true
     
 - name: Configuring /etc/netplan/01-network-manager-all.yaml
   template:

@@ -13,6 +13,7 @@
     packages:
       - git
       - vim
+      
 - name: Turn off wifi power saving
   lineinfile:
     path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
