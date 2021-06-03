@@ -2,8 +2,8 @@
 #localhost id=1 ansible_connection=local ansible_user=peko
 
 [robots]
-192.168.88.246 id=11 ansible_user=peko rosl=1 wifi_pass=12334567
-#192.168.88.4 id=4 ansible_user=robot rosl=1
+#192.168.88.246 id=11 ansible_user=peko rosl=1 wifi_pass=12334567
+192.168.88.4 id=4 ansible_user=robot rosl=1 wifi_pass=12334567
 #
 #192.168.200.2 id=2 ansible_user=peko
 #192.168.200.3 id=3 ansible_user=peko
