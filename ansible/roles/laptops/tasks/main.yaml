@@ -7,3 +7,6 @@
 #  vars:
 #    packages:
 #      - ros-noetic-realsense2-description
+- name: Reconfiguring hostname 
+  command: hostnamectl set-hostname laptop-{{ id }}
+  become: true

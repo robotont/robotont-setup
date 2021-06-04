@@ -23,24 +23,13 @@
 #    name: lapt
 #    state: present
 
-- name: Copy .rosinstall file with owner and permissions for laptop
+- name: Copy .rosinstall file with owner and permissions
   copy:
     src: files/.rosinstall
     dest: /home/{{ ansible_user }}/catkin_ws/src/.rosinstall
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'
-  when: rosl is not defined
-    
-- name: Copy .rosinstall file with owner and permissions for robot
-  copy:
-    src: files_for_robots/.rosinstall
-    dest: /home/{{ ansible_user }}/catkin_ws/src/.rosinstall
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0644'
-  when: rosl is defined
-
 
   #when: ansible_default_ipv4.gateway is defined
 
