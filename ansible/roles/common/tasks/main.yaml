@@ -21,3 +21,6 @@
     line: wifi.powersave = 2
   become: true
 
+- name: Disable firewall
+  command: ufw disable
+  become: true
