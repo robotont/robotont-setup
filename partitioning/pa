@@ -1,0 +1,15 @@
+#!/bin/bash
+lsblk
+read -p "Enter disk name(example: sda): " DISK_NAME
+echo $DISK_NAME is being formatted
+parted --script /dev/$DISK_NAME \
+mklabel gpt \
+mkpart primary 2048s 4095s \
+mkpart primary fat32 4096s 618495s \
+mkpart primary ext4 618496s 41578495s \
+mkpart primary linux-swap 41578496s 56512511s \
+-- mkpart primary ntfs 56512512s -35s \
+set 1 bios_grub on \
+set 2 boot on \
+set 2 esp on \
+

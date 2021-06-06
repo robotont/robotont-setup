@@ -1,0 +1,24 @@
+#!/bin/bash
+#Define variable here
+sudo parted --script /dev/sdX \
+mklabel gpt \
+mkpart primary \
+mkpart primary ext4 end-3000 end \
+#set 5 msftdata on \
+
+
+#!/bin/bash
+lsblk
+read -p "Enter disk name(example: sda): " DISK_NAME
+echo $DISK_NAME will be formatted
+parted --script /dev/$DISK_NAME \
+mklabel gpt \
+mkpart primary 2048 4095 \
+mkpart primary fat32 4096 618495 \
+mkpart primary ext4 618496 41578495 \
+mkpart primary linux-swap 41578496 56512511 \
+-- mkpart primary ntfc 56512512 -1s \
+set 1 bios_grub on \
+set 2 boot on \
+set 2 esp on \
+
