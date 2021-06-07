@@ -5,11 +5,15 @@ echo $DISK_NAME is being formatted
 parted --script /dev/$DISK_NAME \
 mklabel gpt \
 mkpart primary 2048s 4095s \
-mkpart primary fat32 4096s 618495s \
-mkpart primary ext4 618496s 41578495s \
-mkpart primary linux-swap 41578496s 56512511s \
--- mkpart primary ntfs 56512512s -35s \
+mkpart primary 4096s 618495s \
+mkpart primary 618496s 41578495s \
+mkpart primary 41578496s 56512511s \
+-- mkpart primary 56512512s -35s \
 set 1 bios_grub on \
 set 2 boot on \
-set 2 esp on \
-
+set 2 esp on
+sleep 1
+mkdosfs -F 32 -I /dev/${DISK_NAME}2
+mkfs.ext4 -F -F /dev/${DISK_NAME}3
+mkswap /dev/${DISK_NAME}4
+mkfs -t ntfs -Q /dev/${DISK_NAME}5
