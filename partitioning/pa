@@ -17,3 +17,4 @@ mkdosfs -F 32 -I /dev/${DISK_NAME}2
 mkfs.ext4 -F -F /dev/${DISK_NAME}3
 mkswap /dev/${DISK_NAME}4
 mkfs -t ntfs -Q /dev/${DISK_NAME}5
+
