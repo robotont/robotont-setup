@@ -2,6 +2,7 @@
 lsblk
 read -p "Enter disk name(example: sda): " DISK_NAME
 echo $DISK_NAME is being formatted
+umount /media/${USER}/*
 parted --script /dev/$DISK_NAME \
 mklabel gpt \
 mkpart primary 2048s 4095s \
