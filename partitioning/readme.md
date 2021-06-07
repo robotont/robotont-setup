@@ -1,1 +1,1 @@
-# 2 scripts to be copied to the machine which creates drive(party is a backup)
+# 2 scripts to be copied to the machine which creates drive(bacup is not needed)
