@@ -42,6 +42,21 @@
 - name: Cleaning up launcher icons
   command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
   become: false
+  
+- name: Build Catkin workspace for robotont
+  shell: bash -ic 'catkin build'
+  args: 
+    chdir: /home/{{ ansible_user }}/catkin_ws 
+  become_user: "{{ ansible_user }}"
+  tags: untested
+
+- name: Add catkin_ws to bashrc
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: source /home/{{ansible_user}}/catkin_ws/devel/setup.bash
+  become_user: "{{ ansible_user }}"
+  tags:
+    - untested
 #Service setup
 - name: Set up a systemd service for Robotont
   template:

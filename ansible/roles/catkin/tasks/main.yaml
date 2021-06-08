@@ -23,13 +23,23 @@
 #    name: lapt
 #    state: present
 
-- name: Copy .rosinstall file with owner and permissions
+- name: Copy .rosinstall file with owner and permissions for laptop
   copy:
-    src: files/.rosinstall
+    src: files_for_laptops/.rosinstall
     dest: /home/{{ ansible_user }}/catkin_ws/src/.rosinstall
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'
+  when: is_robot is not defined
+    
+- name: Copy .rosinstall file with owner and permissions for robot
+  copy:
+    src: files_for_robots/.rosinstall
+    dest: /home/{{ ansible_user }}/catkin_ws/src/.rosinstall
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  when: is_robot is defined
 
   #when: ansible_default_ipv4.gateway is defined
 
@@ -58,17 +68,4 @@
   become_user: "{{ ansible_user }}"
   tags: untested
 
-- name: Build Catkin workspace for robotont
-  shell: bash -ic 'catkin build'
-  args: 
-    chdir: /home/{{ ansible_user }}/catkin_ws 
-  become_user: "{{ ansible_user }}"
-  tags: untested
 
-- name: Add catkin_ws to bashrc
-  lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
-    line: source /home/{{ansible_user}}/catkin_ws/devel/setup.bash
-  become_user: "{{ ansible_user }}"
-  tags:
-    - untested

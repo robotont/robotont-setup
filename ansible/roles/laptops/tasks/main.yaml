@@ -10,3 +10,27 @@
 - name: Reconfiguring hostname 
   command: hostnamectl set-hostname laptop-{{ id }}
   become: true
+  
+- name: Install system essentials for the laptop
+  apt:
+    name: "{{ packages }}"
+  become: true
+  vars:
+    packages:
+      - ros-noetic-moveit
+      - ros-noetic-moveit-visual-tools
+      
+- name: Build Catkin workspace
+  shell: bash -ic 'catkin build'
+  args: 
+    chdir: /home/{{ ansible_user }}/catkin_ws 
+  become_user: "{{ ansible_user }}"
+  tags: untested
+
+- name: Add catkin_ws to bashrc
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: source /home/{{ansible_user}}/catkin_ws/devel/setup.bash
+  become_user: "{{ ansible_user }}"
+  tags:
+    - untested
