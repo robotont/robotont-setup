@@ -44,3 +44,7 @@
 - git:
     local-name: xarm_ros
     uri: https://github.com/ut-ims-robotics/xarm_ros.git
+- git:
+    local-name: movegroup_interface_demo
+    uri: https://github.com/ut-ims-robotics/movegroup_interface_demo.git
+    

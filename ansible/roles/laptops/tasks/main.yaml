@@ -19,7 +19,9 @@
     packages:
       - ros-noetic-moveit
       - ros-noetic-moveit-visual-tools
-      
+      - ros-noetic-moveit-ros-planning-interface
+      #- ros-noetic-ros-control
+      #- ros-noetic-ros-controllers
 - name: Build Catkin workspace
   shell: bash -ic 'catkin build'
   args: 
