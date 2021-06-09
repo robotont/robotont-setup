@@ -20,8 +20,16 @@
       - ros-noetic-moveit
       - ros-noetic-moveit-visual-tools
       - ros-noetic-moveit-ros-planning-interface
-      #- ros-noetic-ros-control
-      #- ros-noetic-ros-controllers
+      - ros-noetic-ros-control
+      - ros-noetic-ros-controllers
+      
+- name: Update submodule step 1
+  shell: git checkout eb2a4a14144a700ab1d64ef755dc8229cbe6553b
+  args:
+    chdir: /home/{{ ansible_user }}/catkin_ws/src/xarm_ros
+  become_user: "{{ ansible_user }}"
+  tags: untested
+
 - name: Build Catkin workspace
   shell: bash -ic 'catkin build'
   args: 
