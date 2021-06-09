@@ -1,0 +1,7 @@
+---
+- hosts: laptops
+  #remote_user: "{{ ansible_user }}"
+  roles:
+    - laptops-update
+
+
