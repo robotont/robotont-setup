@@ -6,7 +6,7 @@ network:
     wlp58s0:
       dhcp4: no
       addresses:
-        - 192.168.200.11/24
+        - 192.168.200.{{ id }}/24
       access-points:
         "robotont-{{ id }}":
           password: "{{ wifi_pass }}"
