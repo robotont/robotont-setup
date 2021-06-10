@@ -1,5 +1,26 @@
 # Setup
-## SSH part
+## Laptop setup: 2 laptops and two memory sticks are needed
+#### Boot linux in trial mode from the installation memory stick
+#### Then copy scripts from main laptop to the one which installs ubuntu
+```
+scp -r ~/robotont-setup/partitioning/* ubuntu@<ip addr>:.
+```
+#### Then first run partitioning
+It prompts for disk name. If something fails unplug target memory stick and plug back again.
+```
+sudo ./pa
+```
+#### After that install ubuntu and select not to reboot
+#### And then run copying script after which it can be rebooted
+```
+sudo ./copying
+```
+### After that run ansible for laptops(with the correct laptop ip in hosts file)
+```
+ansible-playbook laptops.yaml -K
+```
+
+## SSH part outdated
 ### Installing ssh on robot
 ```
 sudo apt install -y openssh-server
