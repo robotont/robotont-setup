@@ -18,10 +18,23 @@
   vars:
     packages:
       - ros-noetic-moveit
-      - ros-noetic-moveit-visual-tools
+      - ros-noetic-moveit-ros-move-group
+      - ros-noetic-moveit-fake-controller-manager
+      - ros-noetic-moveit-kinematics
+      - ros-noetic-moveit-planners-ompl
+      - ros-noetic-moveit-ros-visualization
+      - ros-noetic-moveit-setup-assistant
+      - ros-noetic-moveit-core
       - ros-noetic-moveit-ros-planning-interface
-      - ros-noetic-ros-control
+      - ros-noetic-moveit-ros-perception
+      - ros-noetic-geometric-shapes
+      - ros-noetic-moveit-visual-tools
       - ros-noetic-ros-controllers
+      - ros-noetic-ros-control
+      - python-numpy
+      - ros-noetic-moveit-commander
+      - ros-noetic-combined-robot-hw
+
       
 - name: Update submodule step 1
   shell: git checkout eb2a4a14144a700ab1d64ef755dc8229cbe6553b
