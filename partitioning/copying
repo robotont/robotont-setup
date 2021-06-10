@@ -1,6 +1,6 @@
 #!/bin/bash
 lsblk
-umount /media/${USER}/*
+umount /media/ubuntu/*
 read -p "Enter disk name(example: sda): " DISK_NAME
 echo $DISK_NAME is being updated
 mount /dev/${DISK_NAME}2 /mnt
