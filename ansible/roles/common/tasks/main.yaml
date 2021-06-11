@@ -13,7 +13,11 @@
     packages:
       - git
       - vim
-      
+
+- name: Add python link pointing to python3
+  command: ln -s /usr/bin/python3 /usr/bin/python
+  become: true
+  
 - name: Turn off wifi power saving
   lineinfile:
     path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
