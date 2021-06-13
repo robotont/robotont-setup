@@ -1,11 +1,11 @@
 ---
-- hosts: clearbots
-  remote_user: kasutaja
+- hosts: robots
+  remote_user: "{{ ansible_user }}"
 
   tasks:
-  - name: Update hostname to clearbot-{{ clearbot_id }}
+  - name: Update hostname to robotont-{{ id }}
     hostname:
-      name: "clearbot-{{ clearbot_id }}"
+      name: "robotont-{{ id }}"
     become: true
 
   - name: Update /etc/hosts
