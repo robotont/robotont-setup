@@ -7,9 +7,20 @@
 #  vars:
 #    packages:
 #      - ros-noetic-realsense2-description
-- name: Reconfiguring hostname 
+- name: Configuring hostname 
   command: hostnamectl set-hostname laptop-{{ id }}
   become: true
+
+- name: Configuring hostname in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127.0.1.1'
+    line: 127.0.1.1   laptop-{{ id }}
+  become: true
+
+- name: Add estonian keyboard
+  command: gsettings set org.gnome.desktop.input-sources sources "[('xkb','us'), ('xkb', 'ee')]"
+  become: false
   
 - name: Install system essentials for the laptop
   apt:
