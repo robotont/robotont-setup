@@ -14,6 +14,7 @@
       - git
       - vim
 
+#!Should be removed!
 - name: Add python link pointing to python3
   command: ln -s /usr/bin/python3 /usr/bin/python
   become: true

@@ -1,13 +1,16 @@
 ---
-- name: Install updates for the laptops
-  apt:
-    name: "{{ packages }}"
-  become: true
-  vars:
-    packages:
-      - ros-noetic-moveit
-      - ros-noetic-moveit-visual-tools
-      - ros-noetic-moveit-ros-planning-interface
+
+- name: Add estonian keyboard
+  command: gsettings set org.gnome.desktop.input-sources sources "[('xkb','us'), ('xkb', 'ee')]"
+#- name: Install updates for the laptops
+#  apt:
+#    name: "{{ packages }}"
+#  become: true
+#  vars:
+#    packages:
+#      - ros-noetic-moveit
+#      - ros-noetic-moveit-visual-tools
+#      - ros-noetic-moveit-ros-planning-interface
       #- ros-noetic-ros-control
       #- ros-noetic-ros-controllers
 
