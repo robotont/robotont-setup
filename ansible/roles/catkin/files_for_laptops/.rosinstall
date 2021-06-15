@@ -42,6 +42,10 @@
     uri: https://github.com/rios-ai/ar_track_alvar.git
     version: 'feature/rios_bug_fix'
 - git:
+    local-name: xarm_ros
+    uri: https://github.com/xArm-Developer/xarm_ros.git
+    version: v1.4.0
+- git:
     local-name: movegroup_interface_demo
     uri: https://github.com/ut-ims-robotics/movegroup_interface_demo.git
     
