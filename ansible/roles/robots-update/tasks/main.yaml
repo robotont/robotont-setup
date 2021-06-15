@@ -2,7 +2,21 @@
 - name: Reconfiguring hostname 
   command: hostnamectl set-hostname robotont-{{ id }}
   become: true
-  
+- name: Install updates for the laptops
+  apt:
+    name: "{{ packages }}"
+  become: true
+  vars:
+    packages:
+      - ros-noetic-teb-local-planner
+
+- name: Configuring new planner
+  lineinfile:
+    path: /home/{{ ansible_user }}/catkin_ws/src/robotont/robotont_navigation/config/planner_local_params.yaml
+    regexp: '^TrajectoryPlannerROS:'
+    line: 'TEBPlannerROS:'
+  become: true
+        
 - name: Configuring hostname in /etc/hosts
   lineinfile:
     path: /etc/hosts
