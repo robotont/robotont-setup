@@ -77,6 +77,13 @@
 - name: Reconfiguring hostname 
   command: hostnamectl set-hostname robotont-{{ id }}
   become: true
+  
+- name: Configuring hostname in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127.0.1.1'
+    line: 127.0.1.1   robotont-{{ id }}
+  become: true
     
 - name: Configuring /etc/netplan/01-network-manager-all.yaml
   template:

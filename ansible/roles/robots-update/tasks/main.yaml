@@ -1,0 +1,32 @@
+---
+- name: Reconfiguring hostname 
+  command: hostnamectl set-hostname robotont-{{ id }}
+  become: true
+  
+- name: Configuring hostname in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127.0.1.1'
+    line: 127.0.1.1   robotont-{{ id }}
+  become: true
+
+- name: Configuring /etc/netplan/01-network-manager-all.yaml
+  template:
+    src: Testik_netplan.j2
+    dest: /etc/netplan/01-network-manager-all.yaml
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Apply netplan
+  command: netplan apply
+  become: true
+
+- name: Apply connection
+  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+  become: true
+
+- name: Unconditionally reboot the machine with all defaults
+  reboot:
+  become: yes

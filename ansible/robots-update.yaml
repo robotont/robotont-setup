@@ -1,0 +1,14 @@
+---
+- hosts: robots
+  #remote_user: "{{ ansible_user }}"
+  roles:
+    - robots-update
+
+  #Ask for wifi password
+  
+#  tasks:
+#  - name: wifi_pass
+#    pause: 
+#   prompt: Password for robotont-{{ id }} WiFi
+#    echo: no
+#    register: wifi_pass
