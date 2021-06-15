@@ -45,3 +45,4 @@
       - python-numpy
       - ros-noetic-moveit-commander
       - ros-noetic-combined-robot-hw
+      - ros-noetic-teb-local-planner

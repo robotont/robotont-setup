@@ -1,5 +1,5 @@
 [local]
-#localhost id=1 ansible_user=kasutaja
+localhost id=1 ansible_user=bio
 
 [robots]
 192.168.200.6 id=6 ansible_user=peko wifi_pass=t0ndik00bas is_robot=1
