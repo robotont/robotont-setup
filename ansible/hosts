@@ -10,8 +10,8 @@ localhost id=1 ansible_user=bio
 #192.168.200.3 id=3 ansible_user=peko
 
 [laptops]
-192.168.88.244 id=10 ansible_user=peko
-192.168.88.232 id=9 ansible_user=peko
+192.168.173.217 id=3 ansible_user=peko ansible_password=t
+#192.168.88.232 id=9 ansible_user=peko
 #192.168.88.4 id=1 ansible_user=robot
 #laptop-2 id=2 ansible_user=peko
 #laptop-3 id=3 ansible_user=peko
