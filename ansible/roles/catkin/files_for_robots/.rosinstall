@@ -37,6 +37,7 @@
 - git:
     local-name: serial
     uri: https://github.com/wjwwood/serial.git
+    version: 'main'
 - git:
     local-name: ar_track_alvar
     uri: https://github.com/rios-ai/ar_track_alvar.git
