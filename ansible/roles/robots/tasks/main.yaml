@@ -38,6 +38,8 @@
       - screen
       - ros-noetic-realsense2-camera
       - ros-noetic-librealsense2
+      - ros-noetic-rtabmap
+      - ros-noetic-rtabmap-ros
 
 - name: Cleaning up launcher icons
   command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
