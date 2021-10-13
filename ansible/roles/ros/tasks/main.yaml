@@ -14,9 +14,9 @@
   apt:
     name: curl # if you haven't already installed curl
     
-#- name: Set up keys
-#  command: curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-#  become: true
+- name: Set up keys
+  shell: curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+  become: true
   
 - name: Setup compute to accept software from packages.ros.org
   become: true
