@@ -11,7 +11,7 @@
 3) In the appeared menu select the boot device: USB
 4) Install ubuntu:
    * Connect to the internet over WIFI or LAN
-   * Setup your username as **peko**. If you want to use a different one also follow step 6.2
+   * Setup your username as **peko**. If you want to use a different one also follow the additional step after step 6
    * Create a password and don't forget it
    * Follow installation steps
 5) Download installation repository on the robot. For that open terminal with **Ctrl+Alt+T** and paste there line by line: 
@@ -41,10 +41,10 @@ cd robotont-setup/ansible
 ```
 ansible-playbook robots-local.yaml -K
 ```
-10) After it is completed your robot installation is done!
+10) If there is an error in the last reboot step then reboot manually and your robot is ready.
 ### Truobleshooting:
-  * If there is an error at some point repeat steps 8-9
-  * If the computer is frozen then reboot and repeat steps 8-9
+  * If there is an error at some point repeat step 9
+  * If the computer is frozen then reboot the computer and then open the terminal with **Ctrl+Alt+T** repeat steps 8-9 but first
   * If there's an error on the Apply connection step run:
   ```
   nmcli connection up netplan-wlp58s0-robotont-1
