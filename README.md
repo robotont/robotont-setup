@@ -1,4 +1,4 @@
-# Setting up software for Robotont robot, mouse, keyboard and internet connection are needed
+# Setting up software for Robotont
 ## Prerequisites:
     * Robotont
     * Mouse
@@ -11,7 +11,7 @@
 3) In the appeared menu select the boot device: USB
 4) Install ubuntu:
    * Connect to the internet over WIFI or LAN
-   * Setup your username as **peko**
+   * Setup your username as **peko**. If you want to use a different one also follow step 6.2
    * Create a password and don't forget it
    * Follow installation steps
 5) Download installation repository on the robot. For that open terminal with **Ctrl+Alt+T** and paste there line by line: 
@@ -22,6 +22,7 @@ sudo apt install git
 git clone https://github.com/robotont/robotont-setup
 ```
 6) Adjust the file **hosts** in the ansible folder of the repository. Repository is the **robotont-setup** folder you've downloaded with a command. Edit the second line and enter the password of the access point you would like to have **wifi_pass=** ***your_password***. The robot will become a WiFi access point after configuration is finished with the password specified by you.
+   * Additional step for custom username(if you are using peko skip it). Modify the first line in hosts file **ansible_user=peko** and replace peko with your username
 7) Run the following command to install ansible:
 <!-- ```
 sudo apt install python3-pip
