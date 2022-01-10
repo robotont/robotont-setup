@@ -1,8 +1,8 @@
 [local]
-localhost id=1 ansible_user=bio
+localhost id=1 ansible_user=peko wifi_pass=t0ndik00bas is_robot=1
 
 [robots]
-192.168.200.6 id=8 ansible_user=peko wifi_pass=t0ndik00bas is_robot=1 ansible_password=t
+192.168.200.6 id=8 ansible_user=peko wifi_pass= is_robot=1 ansible_password=
 #192.168.88.221 id=5 ansible_user=peko wifi_pass= is_robot=1
 #192.168.88.4 id=4 ansible_user=robot wifi_pass=12334567
 #
@@ -10,8 +10,7 @@ localhost id=1 ansible_user=bio
 #192.168.200.3 id=3 ansible_user=peko
 
 [laptops]
-192.168.173.217 id=3 ansible_user=peko ansible_password=t
-#192.168.88.232 id=9 ansible_user=peko
+192.168.156.212 id=1 ansible_user=peko ansible_password=
 #192.168.88.4 id=1 ansible_user=robot
 #laptop-2 id=2 ansible_user=peko
 #laptop-3 id=3 ansible_user=peko

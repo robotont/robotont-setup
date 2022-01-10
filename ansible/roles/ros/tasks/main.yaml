@@ -9,6 +9,10 @@
   command: sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
   become: true
   
+#- name: Update
+#  command: apt-get update
+#  become: true
+  
 - name: Install curl
   become: true
   apt:
