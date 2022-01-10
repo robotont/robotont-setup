@@ -31,7 +31,11 @@ sudo apt install ansible
 ansible-playbook robots-local.yaml -K
 ```
 10) After it is completed your robot installation is done!
-
+### Truobleshooting:
+  * If there's an error on the Apply connection step run:
+  ```
+  nmcli connection up netplan-wlp58s0-robotont-1
+  ```
 # Laptop setup: 2 laptops and two memory sticks are needed
 #### Boot linux in trial mode from the installation memory stick
 #### Then copy scripts from main laptop to the one which installs ubuntu
