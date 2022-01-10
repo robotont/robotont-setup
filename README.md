@@ -1,20 +1,28 @@
-# Robot setup: robot, mouse, keyboard and internet connection are needed
+# Setting up software for Robotont robot, mouse, keyboard and internet connection are needed
+## Prerequisites:
+    * Robotont
+    * Mouse
+    * Empty memory stick (at least 8Gb)
+    * Keyboard
+    * Internet connection (WiFi or cable)
+## Installation instructions:
 1) Create ubuntu installation memory stick and plug it into the computer on the robot
-2) Power on the computer and press F10 on the keyoard
-3) In the appeared menu select the boot device your USB
+2) Power on the computer and enter the boot menu (for Intel NUC press F10 on the keyoard)
+3) In the appeared menu select the boot device: USB
 4) Install ubuntu:
-   * Connect to WiFi
+   * Connect to the internet over WIFI or LAN
    * Setup your username as **peko**
    * Create a password and don't forget it
    * Follow installation steps
-5) Download installation repository on the robot: 
+5) Download installation repository on the robot. For that open terminal with **Ctrl+Alt+T** and paste there line by line: 
 ```
 sudo apt install git
 ```
 ```
 git clone https://github.com/robotont/robotont-setup
 ```
-6) Run the following command to install ansible:
+6) Adjust the file **hosts** in the ansible folder of the repository. Repository is the **robotont-setup** folder you've downloaded with a command. Edit the second line and enter the password of the access point you would like to have **wifi_pass=** ***your_password***. The robot will become a WiFi access point after configuration is finished with the password specified by you.
+7) Run the following command to install ansible:
 <!-- ```
 sudo apt install python3-pip
 ```
@@ -24,14 +32,18 @@ python3 -m pip install --user ansible
 ```
 sudo apt install ansible
 ```
-7) Adjust the file **hosts** in ansible folder of the repository. Edit second line and enter the password of the access point you would like to have **wifi_pass=** ***your_password***
-8) Open terminal with right click when you are in the ansible folder of the ropository
-9) Run ansible and enter user password in the become field:
+8) Change the terminal working directory to the one containing the configuration files:
+```
+cd robotont-setup/ansible
+```
+9) Run ansible and enter user password in the BECOME field when it appears:
 ```
 ansible-playbook robots-local.yaml -K
 ```
 10) After it is completed your robot installation is done!
 ### Truobleshooting:
+  * If there is an error at some point repeat steps 8-9
+  * If the computer is frozen then reboot and repeat steps 8-9
   * If there's an error on the Apply connection step run:
   ```
   nmcli connection up netplan-wlp58s0-robotont-1
