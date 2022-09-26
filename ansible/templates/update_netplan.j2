@@ -1,0 +1,10 @@
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  wifis:
+    wlp58s0:
+      dhcp4: yes
+      access-points:
+        "tonditall":
+          password: "{{ wifi_pass }}"
