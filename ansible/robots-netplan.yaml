@@ -1,0 +1,31 @@
+---
+- hosts: robots-netplan
+  #remote_user: "{{ ansible_user }}"
+
+  tasks:
+  # - name: wifi_pass
+  #   pause: 
+  #   prompt: Password for robotont-{{ id }} WiFi
+  #   echo: no
+  #   register: wifi_pass
+
+  - name: Configuring /etc/netplan/01-network-manager-all.yaml
+    template:
+      src: update_netplan.j2
+      dest: /etc/netplan/01-network-manager-all.yaml
+      owner: root
+      group: root
+      mode: '0644'
+    become: true
+
+  - name: Apply netplan
+    command: netplan apply
+    become: true
+
+  # - name: Apply connection
+  #   command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+  #   become: true
+
+  # - name: Unconditionally reboot the machine with all defaults
+  #   reboot:
+  #   become: yes
