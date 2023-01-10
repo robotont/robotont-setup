@@ -61,6 +61,7 @@ It prompts for disk name. If something fails unplug target memory stick and plug
 sudo ./pa
 ```
 #### After that install ubuntu and select not to reboot
+During installation, when the Installation type window comes up choose Something else, then choose your device, change its type to Ext4 journaling file system with mount point /. In the same window for Device for boot loader installation field choose the same device.
 #### And then run copying script after which it can be rebooted
 ```
 sudo ./copying
