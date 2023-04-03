@@ -1,4 +1,12 @@
 - git:
+    local-name: robotont/robotont_webapp
+    uri: https://github.com/robotont/robotont_webapp.git
+    version: 'main'
+- git:
+    local-name: robotont/depthcloud_encoder
+    uri: https://github.com/RobotWebTools/depthcloud_encoder.git
+    version: 'develop'
+- git:
     local-name: robotont/robotont_driver
     uri: https://github.com/robotont/robotont_driver.git
     version: 'noetic-devel'

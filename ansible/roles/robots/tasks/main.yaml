@@ -45,6 +45,72 @@
   command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
   become: false
   
+- name: Add keys for Node.js 19.x
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+  become: true
+
+- name: Add nodesource repository for Node.js 19.x
+  become: true
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_19.x {{ ansible_distribution_release }} main
+    state: present
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: true
+  
+
+- name: Install required packages
+  become: true
+  apt:
+    name:
+      - build-essential
+      - cmake
+      - libjson-c-dev
+      - libwebsockets-dev
+      - nodejs
+      - ros-noetic-rosbridge-server
+      - ros-noetic-tf2-web-republisher
+      - ros-noetic-web-video-server
+    # state: latest
+  become: true
+
+- name: Install npm version 9.5.0
+  npm:
+    name: npm@9.5.0
+    global: yes
+    state: present
+  become: true
+
+- name: Install n
+  npm:
+    name: n
+    global: yes
+    state: present
+  become: true
+
+- name: Install Node.js with n
+  shell: sudo n 19.7.0
+  become: true
+
+- name: Install dependencies for ttyd
+  apt:
+    name:
+      - libjson-c-dev
+      - libwebsockets-dev
+    state: latest
+  
+- name: Install ttyd
+  shell: |
+    git clone https://github.com/tsl0922/ttyd.git
+    cd ttyd && mkdir build && cd build
+    cmake ..
+    make && sudo make install
+  become: true
+
 - name: Build Catkin workspace for robotont
   shell: bash -ic 'catkin build'
   args: 
@@ -107,3 +173,4 @@
 - name: Unconditionally reboot the machine with all defaults
   reboot:
   become: yes
+
