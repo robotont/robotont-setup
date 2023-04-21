@@ -166,8 +166,14 @@
   command: netplan apply
   become: true
 
+
+- name: start wifi
+  command: ip link set {{ wifi_interface }} up
+  become: true
+
+
 - name: Apply connection
-  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+  command: nmcli connection up netplan-{{ wifi_interface }}-robotont-{{ id }}
   become: true
 
 - name: Unconditionally reboot the machine with all defaults

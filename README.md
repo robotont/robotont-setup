@@ -23,6 +23,13 @@ git clone https://github.com/robotont/robotont-setup
 ```
 6) Adjust the file **hosts** in the ansible folder of the repository. Repository is the **robotont-setup** folder you've downloaded with a command. Edit the second line and enter the password of the access point you would like to have **wifi_pass=** ***your_password***. The robot will become a WiFi access point after configuration is finished with the password specified by you.
    * Additional step for custom username(if you are using peko skip it). Modify the first line in hosts file **ansible_user=peko** and replace peko with your username
+   * You must also specify the WiFi interface used for the access point. to find out which interfaces are available, use the following command.
+
+      ```
+      nmcli --get-values GENERAL.DEVICE,GENERAL.TYPE device show
+      ```
+      replace the wifi_interface=wlo1 with the interface name you want to use.
+   
 7) Run the following command to install ansible:
 <!-- ```
 sudo apt install python3-pip
