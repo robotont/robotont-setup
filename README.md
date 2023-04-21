@@ -56,6 +56,7 @@ ansible-playbook robots-local.yaml -K
   ```
   nmcli connection up netplan-wlp58s0-robotont-1
   ```
+  * If there is an error activating or starting the Wifi Check if the Ubuntu desktop Manager if the Wifi Interface is enabled. The Ansible installation also installs on a server installation a minimal Desktop environment. 
 # Laptop setup: 2 laptops and two memory sticks are needed
 #### Boot linux in trial mode from the installation memory stick
 #### Then copy scripts from main laptop to the one which installs ubuntu
