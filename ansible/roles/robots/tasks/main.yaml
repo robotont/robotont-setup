@@ -176,6 +176,11 @@
   command: nmcli connection up netplan-{{ wifi_interface }}-robotont-{{ id }}
   become: true
 
+
+- name: Disable Sleep and Hibernate
+  command: systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+  become: true
+
 - name: Unconditionally reboot the machine with all defaults
   reboot:
   become: yes
