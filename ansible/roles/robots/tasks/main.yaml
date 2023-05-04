@@ -183,5 +183,5 @@
 
 - name: Unconditionally reboot the machine with all defaults
   reboot:
-  become: yes
+  become: true
 
