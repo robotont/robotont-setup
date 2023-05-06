@@ -1,8 +1,9 @@
 [local]
-localhost id=1 ansible_user=peko wifi_pass=12345678 is_robot=1
+localhost id=1 ansible_user=peko wifi_pass=12345678 is_robot=1 wifi_interface=wlo1 
+
 
 [robots]
-192.168.200.8 id=8 ansible_user=peko wifi_pass= is_robot=1 ansible_password= ansible_sudo_pass=
+#192.168.200.8 id=8 ansible_user=peko wifi_interface= wifi_pass= is_robot=1 ansible_password= ansible_sudo_pass=
 #192.168.88.221 id=5 ansible_user=peko wifi_pass= is_robot=1
 #192.168.88.4 id=4 ansible_user=robot wifi_pass=12334567
 #
@@ -10,10 +11,10 @@ localhost id=1 ansible_user=peko wifi_pass=12345678 is_robot=1
 #192.168.200.3 id=3 ansible_user=peko
 
 [robots-netplan]
-192.168.200.8 id=8 ansible_user=peko wifi_pass= ansible_password= ansible_sudo_pass=
+#192.168.200.8 id=8 ansible_user=peko wifi_pass= ansible_password= ansible_sudo_pass=
 
 [laptops]
-192.168.156.212 id=1 ansible_user=peko ansible_password=
+#192.168.156.212 id=1 ansible_user=peko ansible_password=
 #192.168.88.4 id=1 ansible_user=robot
 #laptop-2 id=2 ansible_user=peko
 #laptop-3 id=3 ansible_user=peko

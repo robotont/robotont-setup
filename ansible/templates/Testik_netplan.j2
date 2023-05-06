@@ -3,7 +3,7 @@ network:
   version: 2
   renderer: NetworkManager
   wifis:
-    wlp58s0:
+    {{ wifi_interface }}:
       dhcp4: no
       addresses:
         - 192.168.200.{{ id }}/24

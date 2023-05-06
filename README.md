@@ -23,6 +23,13 @@ git clone https://github.com/robotont/robotont-setup
 ```
 6) Adjust the file **hosts** in the ansible folder of the repository. Repository is the **robotont-setup** folder you've downloaded with a command. Edit the second line and enter the password of the access point you would like to have **wifi_pass=** ***your_password***. The robot will become a WiFi access point after configuration is finished with the password specified by you.
    * Additional step for custom username(if you are using peko skip it). Modify the first line in hosts file **ansible_user=peko** and replace peko with your username
+   * You must also specify the WiFi interface used for the access point. to find out which interfaces are available, use the following command.
+
+      ```
+      nmcli --get-values GENERAL.DEVICE,GENERAL.TYPE device show
+      ```
+      replace the wifi_interface=wlo1 with the interface name you want to use.
+   
 7) Run the following command to install ansible:
 <!-- ```
 sudo apt install python3-pip
@@ -49,6 +56,7 @@ ansible-playbook robots-local.yaml -K
   ```
   nmcli connection up netplan-wlp58s0-robotont-1
   ```
+  * If there is an error activating or starting the Wifi Check if the Ubuntu desktop Manager if the Wifi Interface is enabled. The Ansible installation also installs on a server installation a minimal Desktop environment. 
 # Laptop setup: 2 laptops and two memory sticks are needed
 #### Boot linux in trial mode from the installation memory stick
 #### Then copy scripts from main laptop to the one which installs ubuntu
