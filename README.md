@@ -145,7 +145,7 @@ nano .rosinstall
 ```
 Import the listed packages to the created workspace
 ```bash
-vsc import < .rosinstall
+vcs import < .rosinstall
 ```
 
 Build the imported packages.
