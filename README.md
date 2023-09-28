@@ -130,25 +130,34 @@ To update all ubuntu packages run:
 sudo apt update
 sudo apt upgrade -y
 ```
-## Getting the latest catkin workspace for the robot
-Make a backup of the existing workspace:
+## Setting up catkin workspace for the robot using a .ROSINSTALL file
+Make sure the latest [vcstool](https://github.com/dirk-thomas/vcstool) is installed:
 ```bash
-mv ~/catkin_ws ~/backup_ws
+sudo apt update
+sudo apt install python3-vcstool
 ```
 
-Create a new workspace
+Create a new catkin workspace
 ```bash
-mkdir -p catkin_ws/src
-cd catkin_ws
-catkin build
-```
-Download and build all the latest robotont ROS packages for the robot.
-
-```bash
+mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws
-wstool init src https://raw.githubusercontent.com/robotont/robotont-setup/melodic-devel/ansible/resources/.rosinstall
 catkin build
 ```
+Download [.rosinstall](https://raw.githubusercontent.com/robotont/robotont-setup/noetic-devel/ansible/roles/catkin/files_for_robots/.rosinstall) that lists a standard set of Robotont ROS packages.
+```bash
+cd ~/catkin_ws/src
+wget -O .rosinstall https://raw.githubusercontent.com/robotont/robotont-setup/noetic-devel/ansible/roles/catkin/files_for_robots/.rosinstall
+```
+Optionally, modify the package list using a text editor
+```bash
+nano .rosinstall
+```
+Import the listed packages to the created workspace
+```bash
+vcs import < .rosinstall
+```
 
-
-
+Build the imported packages.
+```bash
+catkin build
+```
