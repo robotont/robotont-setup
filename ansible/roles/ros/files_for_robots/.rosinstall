@@ -1,0 +1,16 @@
+- git:
+    local-name: robotont/robotont_driver
+    uri: https://github.com/robotont/robotont_driver.git
+    version: 'humble-devel'
+- git:
+    local-name: robotont/robotont_msgs
+    uri: https://github.com/robotont/robotont_msgs.git
+    version: 'humble-devel'
+- git:
+    local-name: robotont/robotont_description
+    uri: https://github.com/robotont/robotont_description.git
+    version: 'humble-devel'
+- git:
+    local-name: robotont/robotont_support
+    uri: https://github.com/robotont/robotont_support.git
+    version: 'humble-devel'

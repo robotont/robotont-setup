@@ -1,5 +1,5 @@
 ---
-- name: Remove excessive software
+- name: Remove excessive ubuntu software
   apt:
     name: "{{ packages }}"
     state: absent
@@ -9,6 +9,10 @@
     packages:
       - libreoffice*
 
+#- name: Cleaning up launcher icons
+#  command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
+#  become: false
+
 - name: Give user access to the serial port
   user:
     name: "{{ ansible_user }}"
@@ -16,17 +20,17 @@
     append: yes
   become: true
 
-- name: Rules for realsense download
-  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
-  become: true
-  
-- name: Rules for realsense reload
-  command: udevadm control --reload-rules
-  become: true
-  
-- name: Rules for realsense reigger
-  command: udevadm trigger
-  become: true
+#- name: Rules for realsense download
+#  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
+#  become: true
+#  
+#- name: Rules for realsense reload
+#  command: udevadm control --reload-rules
+#  become: true
+#  
+#- name: Rules for realsense trigger
+#  command: udevadm trigger
+#  become: true
   
 - name: Install system essentials for the robot
   apt:
@@ -36,29 +40,7 @@
     packages:
       - openssh-server
       - screen
-      - ros-noetic-realsense2-camera
-      - ros-noetic-librealsense2
-      - ros-noetic-rtabmap
-      - ros-noetic-rtabmap-ros
 
-- name: Cleaning up launcher icons
-  command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
-  become: false
-  
-- name: Build Catkin workspace for robotont
-  shell: bash -ic 'catkin build'
-  args: 
-    chdir: /home/{{ ansible_user }}/catkin_ws 
-  become_user: "{{ ansible_user }}"
-  tags: untested
-
-- name: Add catkin_ws to bashrc
-  lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
-    line: source /home/{{ansible_user}}/catkin_ws/devel/setup.bash
-  become_user: "{{ ansible_user }}"
-  tags:
-    - untested
 #Service setup
 - name: Set up a systemd service for Robotont
   template:
@@ -89,7 +71,7 @@
     
 - name: Configuring /etc/netplan/01-network-manager-all.yaml
   template:
-    src: Testik_netplan.j2
+    src: robot_netplan.j2
     dest: /etc/netplan/01-network-manager-all.yaml
     owner: root
     group: root
@@ -100,9 +82,9 @@
   command: netplan apply
   become: true
 
-- name: Apply connection
-  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
-  become: true
+  #- name: Apply connection
+  #  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+  #  become: true
 
 - name: Unconditionally reboot the machine with all defaults
   reboot:

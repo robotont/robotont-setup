@@ -1,86 +1,17 @@
 ---
-#- name: Add ROS keys
-#  become: true
-#  apt_key:
-#    keyserver: ha.pool.sks-keyservers.net
-#    id: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+# Main tasks for the ROS role
+- name: Set locale for ROS installation
+  include: ros-locale.yaml
+  tags: ros-locale
 
-- name: Setup the source lists
-  command: sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-  become: true
-  
-#- name: Update
-#  command: apt-get update
-#  become: true
-  
-- name: Install curl
-  become: true
-  apt:
-    name: curl # if you haven't already installed curl
-    
-- name: Set up keys
-  shell: curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-  become: true
-  
-- name: Setup compute to accept software from packages.ros.org
-  become: true
-  apt_repository:
-    repo: deb http://packages.ros.org/ros/ubuntu focal main
-    state: present
+- name: Install ROS
+  include: ros-install.yaml
+  tags: ros-install
 
-- name: Update and upgrade apt packages
-  become: true
-  apt:
-    upgrade: yes
-    update_cache: yes
+- name: ROS Packages Install
+  include: ros-packages-install.yaml
+  tags: ros-packages-install
 
-- name: Full ROS installation
-  become: true
-  apt:
-    name: ros-noetic-desktop-full
-
-- name: Install rosdep
-  become: true
-  apt:
-    name: python3-rosdep
-
-- name: Check if rosdep has already been initalised
-  stat:
-    path: /etc/ros/rosdep/sources.list.d/20-default.list
-  register: already_init
-
-- name: Run rosdep init
-  command: rosdep init -y --reinstall
-  become: true
-  when: already_init.stat.exists == False
-
-- name: Run rosdep update
-  command: rosdep update
-
-- name: Put the ROS setup script in bashrc
-  lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
-    line: 'source /opt/ros/noetic/setup.bash'
-
-- name: Install dependencies for building ROS packages
-  apt:
-    name: "{{ packages }}"
-  become: true
-  vars:
-    packages:
-      - python3-rosinstall
-      - python3-rosinstall-generator
-      - python3-vcstool
-      - build-essential
-      - python3-osrf-pycommon
-      - python3-catkin-tools
-      - ros-noetic-joy
-      - ros-noetic-ddynamic-reconfigure
-      - ros-noetic-teleop-twist-keyboard
-      - ros-noetic-realsense2-description
-      - ros-noetic-gmapping
-      - ros-noetic-move-base
-      - ros-noetic-amcl
-      - ros-noetic-map-server 
-      - ros-noetic-depthimage-to-laserscan
-
+- name: ROS Workspace Setup
+  include: ros-workspace-setup.yaml
+  tags: ros-workspace-setup

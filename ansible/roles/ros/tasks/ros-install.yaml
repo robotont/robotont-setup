@@ -1,0 +1,68 @@
+---
+
+- name: Install dependencies for setting up sources
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  become: true
+  vars:
+    packages:
+    - curl
+    - lsb-release
+    - software-properties-common
+
+# sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+- name: Download ROS GPG key
+  apt_key:
+    url: "{{ ros_gpg_key_url }}"
+    keyring: /usr/share/keyrings/ros-archive-keyring.gpg
+    state: present
+  become: true
+
+# echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+- name: Set ros_architecture variable
+  set_fact:
+    ros_architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+
+- name: Add ROS repository
+  apt_repository:
+    repo: "deb [arch={{ ros_architecture }} signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] {{ ros_repository_url }} {{ ansible_distribution_release }} main"
+    state: present
+    filename: "ros2"
+    update_cache: yes
+  become: true
+
+- name: Install ROS ({{ ros_distribution }}-{{ ros_configuration }})
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - ros-{{ ros_distribution }}-{{ ros_configuration }}
+    - ros-dev-tools
+    - python3-rosdep
+    - python3-vcstool
+  become: true
+
+- name: Check if rosdep has already been initalised
+  stat:
+    path: /etc/ros/rosdep/sources.list.d/20-default.list
+  register: already_init
+
+- name: Run rosdep init
+  command: rosdep init -y --reinstall
+  become: true
+  when: already_init.stat.exists == False
+
+- name: Run rosdep update
+  command: rosdep update
+
+- name: Update .bashrc with ROS setup script
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: 'source /opt/ros/{{ ros_distribution }}/setup.bash'
+
+- name: Update .bashrc with ROS_DOMAIN_ID
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: export ROS_DOMAIN_ID={{ ros_domain_id }}

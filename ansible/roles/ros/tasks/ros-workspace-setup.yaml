@@ -1,0 +1,53 @@
+---
+- name: Clean up build install and log files in {{ ros_ws }}
+  file:
+      path: "{{ item }}"
+      state: absent
+  with_items:
+      - "{{ ros_ws }}/build"
+      - "{{ ros_ws }}/install"
+      - "{{ ros_ws }}/logs"
+
+- name: Create ROS workspace folders 
+  file:
+    path: "{{ ros_ws }}/src"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0775'
+
+- name: Copy .rosinstall file with owner and permissions for laptop
+  copy:
+    src: "{{ ros_ws_install_file }}"
+    dest: "{{ ros_ws }}/src/.rosinstall"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Update ROS workspace from .rosinstall
+  shell: bash -ic 'vcs import < .rosinstall'
+  args:
+    chdir: "{{ ros_ws }}/src"
+  become_user: "{{ ansible_user }}"
+
+- name: Run rosdep update under root user
+  command: rosdep update
+  become: true
+
+- name: Install ROS workspace dependencies
+  command: rosdep install --from-paths src --ignore-src --rosdistro {{ ros_distribution }} -y
+  args:
+    chdir: "{{ ros_ws }}"
+  become: true
+
+- name: Build ROS workspace 
+  shell: bash -ic 'colcon build'
+  args: 
+    chdir: "{{ ros_ws }}" 
+  become_user: "{{ ansible_user }}"
+
+- name: Update .bashrc with ROS workspace setup script
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: source {{ ros_ws }}/install/setup.bash
+  become_user: "{{ ansible_user }}"

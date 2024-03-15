@@ -1,0 +1,9 @@
+---
+
+- name: Install additional ROS Packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages: "{{ 'ros-' + ros_distribution + '-' + item }}"
+  with_items: "{{ ros_packages }}"
+  when: (ros_packages is defined) and (ros_packages is not none)

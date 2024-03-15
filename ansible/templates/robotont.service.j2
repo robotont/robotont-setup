@@ -3,7 +3,7 @@ Description=Start Robotont ROS bringup nodes
 After=network.target
 
 [Service]
-ExecStart=/bin/bash -c "source /home/{{ ansible_user }}/catkin_ws/devel/setup.bash && roslaunch robotont_support robotont_bringup.launch"
+ExecStart=/bin/bash -c "source /home/{{ ansible_user }}/ros2_ws/install/setup.bash && ros2 launch robotont_support robotont_bringup.launch"
 WorkingDirectory=/home/{{ ansible_user }}
 StandardOutput=inherit
 StandardError=inherit

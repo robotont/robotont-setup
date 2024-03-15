@@ -1,0 +1,9 @@
+---
+ros_gpg_key_url: https://raw.githubusercontent.com/ros/rosdistro/master/ros.key
+ros_repository_url: http://packages.ros.org/ros2/ubuntu
+ros_distribution: humble
+ros_configuration: desktop
+ros_domain_id: 0
+ros_ws: /home/{{ ansible_user }}/ros2_ws
+ros_ws_install_file: files_for_robots/.rosinstall
+ros_packages:

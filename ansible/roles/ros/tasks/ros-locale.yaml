@@ -1,0 +1,21 @@
+---
+# sudo apt install locales
+- name: Install locale package
+  apt:
+    name: locales
+    state: present
+  become: true
+
+# sudo locale-gen en_US en_US.UTF-8
+- name: Configure locale
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+  become: true
+
+# sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+- name: Update locale
+  command: update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+  become: true
+
+

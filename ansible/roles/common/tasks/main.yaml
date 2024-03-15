@@ -13,14 +13,15 @@
     packages:
       - git
       - vim
+      - htop
 
 #!Should be removed!
-- name: Add python link pointing to python3
-  file:
-    src: "/usr/bin/python3"
-    dest: "/usr/bin/python"
-    state: link
-  become: true
+# - name: Add python link pointing to python3
+#   file:
+#     src: "/usr/bin/python3"
+#     dest: "/usr/bin/python"
+#     state: link
+#   become: true
   
 - name: Turn off wifi power saving
   lineinfile:
@@ -29,6 +30,6 @@
     line: wifi.powersave = 2
   become: true
 
-- name: Disable firewall
+- name: Disable firewall to allow ROS communication
   command: ufw disable
   become: true
