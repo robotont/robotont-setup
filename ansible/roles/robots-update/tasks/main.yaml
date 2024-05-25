@@ -1,52 +1,97 @@
 ---
-- name: Reconfiguring hostname 
-  command: hostnamectl set-hostname robotont-{{ id }}
+- name: Update apt repositories
+  command: apt-get update
   become: true
-- name: Install updates for the laptops
+
+- name: Install apt packages
   apt:
     name: "{{ packages }}"
   become: true
   vars:
     packages:
-      - ros-noetic-teb-local-planner
+      - openssh-server
+      - screen
+      - ros-noetic-realsense2-camera
+      - ros-noetic-librealsense2
+      - ros-noetic-rtabmap
+      - ros-noetic-rtabmap-ros
+      - ros-noetic-teleop-twist-joy
+      - ros-noetic-hector-slam
 
-- name: Configuring new planner
-  lineinfile:
-    path: /home/{{ ansible_user }}/catkin_ws/src/robotont/robotont_navigation/config/planner_local_params.yaml
-    regexp: '^TrajectoryPlannerROS:'
-    line: 'TEBPlannerROS:'
-  become: true
-        
-- name: Configuring hostname in /etc/hosts
-  lineinfile:
-    path: /etc/hosts
-    regexp: '^127.0.1.1'
-    line: 127.0.1.1   robotont-{{ id }}
-  become: true
+- name: Build Catkin workspace for robotont
+  shell: bash -ic 'catkin build'
+  args: 
+    chdir: /home/{{ ansible_user }}/catkin_ws 
+  become_user: "{{ ansible_user }}"
+  tags: untested
 
-- name: Configuring /etc/netplan/01-network-manager-all.yaml
+- name: Add catkin_ws to bashrc
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: source /home/{{ansible_user}}/catkin_ws/devel/setup.bash
+  become_user: "{{ ansible_user }}"
+  tags:
+    - untested
+#Service setup
+- name: Set up a systemd service for Robotont
   template:
-    src: Testik_netplan.j2
-    dest: /etc/netplan/01-network-manager-all.yaml
+    src: robotont.service.j2
+    dest: /lib/systemd/system/robotont.service
     owner: root
     group: root
     mode: '0644'
   become: true
 
-- name: Apply netplan
-  command: netplan apply
+- name: Enable and start the service
+  service:
+    name: robotont.service
+    state: started
+    enabled: yes
   become: true
 
+#- name: Reconfiguring hostname 
+#  command: hostnamectl set-hostname robotont-{{ id }}
+#  become: true
 
-- name: start wifi
-  command: ip link set {{ wifi_interface }} up
-  become: true
+#- name: Install updates for the laptops
+#  apt:
+#    name: "{{ packages }}"
+#  become: true
+#  vars:
+#    packages:
+#      - ros-noetic-teb-local-planner
 
+#- name: Configuring new planner
+#  lineinfile:
+#    path: /home/{{ ansible_user }}/catkin_ws/src/robotont/robotont_navigation/config/planner_local_params.yaml
+#    regexp: '^TrajectoryPlannerROS:'
+#    line: 'TEBPlannerROS:'
+#  become: true
+        
+#- name: Configuring hostname in /etc/hosts
+#  lineinfile:
+#    path: /etc/hosts
+#    regexp: '^127.0.1.1'
+#    line: 127.0.1.1   robotont-{{ id }}
+#  become: true
+#
+#- name: Configuring /etc/netplan/01-network-manager-all.yaml
+#  template:
+#    src: Testik_netplan.j2
+#    dest: /etc/netplan/01-network-manager-all.yaml
+#    owner: root
+#    group: root
+#    mode: '0644'
+#  become: true
 
-- name: Apply connection
-  command: nmcli connection up netplan-{{ wifi_interface }}-robotont-{{ id }}
-  become: true
-
-- name: Unconditionally reboot the machine with all defaults
-  reboot:
-  become: yes
+#- name: Apply netplan
+#  command: netplan apply
+#  become: true
+#
+#- name: Apply connection
+#  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+#  become: true
+#
+#- name: Unconditionally reboot the machine with all defaults
+#  reboot:
+#  become: yes

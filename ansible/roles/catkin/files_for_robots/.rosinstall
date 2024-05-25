@@ -50,3 +50,33 @@
     local-name: ar_track_alvar
     uri: https://github.com/rios-ai/ar_track_alvar.git
     version: 'feature/rios_bug_fix'
+- git:
+    local-name: laserscan_to_ranges
+    uri: https://github.com/ut-ims-robotics/laserscan_to_ranges.git
+    version: 'noetic-devel'
+
+
+########## DEMOS ##########
+- git:
+    local-name: robotont/demo_teleop
+    uri: https://github.com/robotont-demos/demo_teleop.git
+    version: 'noetic-devel'
+- git:
+    local-name: robotont/demo_slam
+    uri: https://github.com/robotont-demos/demo_slam.git
+- git:
+    local-name: robotont/demo_slam_gmapping
+    uri: https://github.com/robotont-demos/demo_slam_gmapping.git
+- git:
+    local-name: robotont/demo_slam_hector
+    uri: https://github.com/robotont-demos/demo_slam_hector.git
+- git:
+    local-name: robotont/demo_slam_catrographer
+    uri: https://github.com/robotont-demos/demo_slam_cartographer.git
+- git:
+    local-name: robotont/demo_ar_maze
+    uri: https://github.com/robotont-demos/demo_ar_maze.git
+- git:
+    local-name: robotont/demo_ar_follow_the_leader
+    uri: https://github.com/robotont-demos/demo_ar_follow_the_leader.git
+    version: 'devel-noetic'
