@@ -1,17 +1,17 @@
 ---
 # Main tasks for the ROS role
 - name: Set locale for ROS installation
-  include: ros-locale.yaml
+  include_tasks: ros-locale.yaml
   tags: ros-locale
 
 - name: Install ROS
-  include: ros-install.yaml
+  include_tasks: ros-install.yaml
   tags: ros-install
 
 - name: ROS Packages Install
-  include: ros-packages-install.yaml
+  include_tasks: ros-packages-install.yaml
   tags: ros-packages-install
 
 - name: ROS Workspace Setup
-  include: ros-workspace-setup.yaml
+  include_tasks: ros-workspace-setup.yaml
   tags: ros-workspace-setup
