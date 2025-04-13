@@ -45,11 +45,3 @@
   reboot:
   become: yes
   ignore_errors: true
-  register: reboot_result
-
-- name: Warn if reboot was unsuccessful
-  shell: |
-    echo "Failed to reboot the machine: {{ reboot_result.msg | default('No error message available') | quote }}"
-  when: reboot_result is failed
-  args:
-    executable: /bin/bash
