@@ -31,7 +31,26 @@
   become_user: "{{ ansible_user }}"
 
 - name: Run rosdep update under root user
-  command: rosdep update
+  shell: |
+    set -e
+    FAILED=()
+    for yaml in $(find "{{ ros_ws }}/src" -name "*.yaml"); do
+      echo "→ Checking: $yaml"
+      if curl -sfL "$yaml" >/dev/null; then
+        echo "  * $yaml: OK"
+      else
+        echo "  * $yaml: NOK"
+        FAILED+=("$yaml")
+      fi
+    done
+    echo "-- Running rosdep update --"
+    rosdep update || echo "Warning! rosdep update failed partially"
+    echo "Unreachable sources (ignored):"
+    for f in "${FAILED[@]}"; do echo " - $f"; done
+  environment:
+    ROS_DISTRO: jazzy
+  args:
+    executable: /bin/bash
   become: true
 
 - name: Install ROS workspace dependencies
