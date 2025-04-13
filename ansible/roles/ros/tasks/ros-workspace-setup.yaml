@@ -36,31 +36,31 @@
 
 - name: Install ROS workspace dependencies
   shell: |
-    echo "-- Checking for unresolvable rosdep keys --"
-
     MISSING_KEYS=$(rosdep check --from-paths src --ignore-src --rosdistro {{ ros_distribution }} 2>&1 \
       | grep "rosdep key :" | awk -F ':' '{gsub(/^[ \t]+/, "", $2); print $2}')
 
     if [ -n "$MISSING_KEYS" ]; then
-      echo "-- Skipping the following missing rosdep keys:"
-      echo "$MISSING_KEYS" | while read key; do
-        echo "  - $key"
-      done
       SKIP_LIST=$(echo "$MISSING_KEYS" | paste -sd, -)
       rosdep install --from-paths src --ignore-src --rosdistro {{ ros_distribution }} -y --skip-keys="$SKIP_LIST"
+      echo "$SKIP_LIST"
     else
-      echo "-- All dependencies resolvable"
       rosdep install --from-paths src --ignore-src --rosdistro {{ ros_distribution }} -y
     fi
   args:
     chdir: "{{ ros_ws }}"
     executable: /bin/bash
-  register: rosdep_result
+  register: rosdep_missing_keys
   become: true
+  changed_when: false
+  failed_when: false
 
-- name: Show rosdep install output
-  debug:
-    msg: "{{ rosdep_result.stdout_lines.msg }}"
+- name: Print missing rosdep keys directly
+  shell: |
+    echo "Missing rosdep keys: {{ rosdep_missing_keys.stdout }}"
+  when: rosdep_missing_keys.stdout != ""
+  args:
+    executable: /bin/bash
+  become: true
 
 - name: Build ROS workspace 
   shell: bash -ic 'colcon build'
