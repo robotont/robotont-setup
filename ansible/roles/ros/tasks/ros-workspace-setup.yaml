@@ -56,7 +56,7 @@
 
 - name: Print missing rosdep keys
   shell: |
-    echo Missing rosdep keys: {{ rosdep_missing_keys.stdout }}
+    echo "Missing rosdep keys: {{ rosdep_missing_keys.stdout }}"
   when: rosdep_missing_keys.stdout != ""
   args:
     executable: /bin/bash
