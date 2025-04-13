@@ -39,15 +39,15 @@
     set -e
     echo "-- Checking for unresolvable rosdep keys --"
 
-    mapfile -t MISSING_KEYS < <(rosdep check --from-paths src --ignore-src --rosdistro {{ ros_distribution }} \
+    MISSING_KEYS=$(rosdep check --from-paths src --ignore-src --rosdistro {{ ros_distribution }} \
       | grep 'missing' | awk '{print $2}')
 
-    if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
+    if [ -n "$MISSING_KEYS" ]; then
       echo "-- Skipping the following missing rosdep keys:"
-      for key in "${MISSING_KEYS[@]}"; do
+      echo "$MISSING_KEYS" | while read key; do
         echo "  - $key"
       done
-      SKIP_LIST=$(IFS=, ; echo "${MISSING_KEYS[*]}")
+      SKIP_LIST=$(echo "$MISSING_KEYS" | paste -sd, -)
     else
       echo "-- All dependencies resolvable"
       SKIP_LIST=""
@@ -58,7 +58,6 @@
     chdir: "{{ ros_ws }}"
     executable: /bin/bash
   become: true
-
 
 - name: Build ROS workspace 
   shell: bash -ic 'colcon build'
