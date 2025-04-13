@@ -60,7 +60,7 @@
 
 - name: Show rosdep install output
   debug:
-    msg: "{{ rosdep_result.stdout_lines }}"
+    msg: "{{ rosdep_result.stdout_lines.msg }}"
 
 - name: Build ROS workspace 
   shell: bash -ic 'colcon build'
