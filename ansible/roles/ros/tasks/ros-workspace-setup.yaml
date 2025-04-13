@@ -34,10 +34,28 @@
   command: rosdep update
   become: true
 
-- name: Install ROS workspace dependencies
-  command: rosdep install --from-paths src --ignore-src --rosdistro {{ ros_distribution }} -y
+- name: Install ROS workspace dependencies (skip unresolvable keys, listed line-by-line)
+  shell: |
+    set -e
+    echo "-- Checking for unresolvable dependencies --"
+    MISSING_KEYS=$(rosdep check --from-paths src --ignore-src --rosdistro {{ ros_distribution }} \
+                   | grep 'missing' | awk '{print $2}')
+    
+    if [ -n "$MISSING_KEYS" ]; then
+      echo "-- Skipping the following rosdep keys:"
+      echo "$MISSING_KEYS" | while read key; do
+        echo "  - $key"
+      done
+      SKIP_LIST=$(echo "$MISSING_KEYS" | paste -sd, -)
+    else
+      echo "-- All dependencies resolvable"
+      SKIP_LIST=""
+    fi
+
+    rosdep install --from-paths src --ignore-src --rosdistro {{ ros_distribution }} -y --skip-keys="$SKIP_LIST"
   args:
     chdir: "{{ ros_ws }}"
+    executable: /bin/bash
   become: true
 
 - name: Build ROS workspace 
