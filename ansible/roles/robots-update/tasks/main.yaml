@@ -48,7 +48,8 @@
   register: reboot_result
 
 - name: Warn if reboot was unsuccessful
-  debug:
-    msg: "Failed to reboot the machine: {{ reboot_result.msg | default('No error message available') }}"
+  shell: |
+    echo "Failed to reboot the machine: {{ reboot_result.msg | default('No error message available') | quote }}"
   when: reboot_result is failed
-
+  args:
+    executable: /bin/bash
