@@ -55,7 +55,12 @@
   args:
     chdir: "{{ ros_ws }}"
     executable: /bin/bash
+  register: rosdep_result
   become: true
+
+- name: Show rosdep install output
+  debug:
+    msg: "{{ rosdep_result.stdout_lines }}"
 
 - name: Build ROS workspace 
   shell: bash -ic 'colcon build'
