@@ -11,6 +11,14 @@
     uri: https://github.com/robotont/robotont_description.git
     version: 'jazzy-devel'
 - git:
+    local-name: robotont/robotont_nuc_description
+    uri: https://github.com/robotont/robotont_nuc_description.git
+    version: 'jazzy-devel'
+- git:
     local-name: robotont/robotont_support
     uri: https://github.com/robotont/robotont_support.git
+    version: 'jazzy-devel'
+- git:
+    local-name: laserscan_to_ranges
+    uri: https://github.com/ut-ims-robotics/laserscan_to_ranges.git
     version: 'jazzy-devel'

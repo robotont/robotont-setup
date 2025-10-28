@@ -20,17 +20,15 @@
     append: yes
   become: true
 
-#- name: Rules for realsense download
-#  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
-#  become: true
-#  
-#- name: Rules for realsense reload
-#  command: udevadm control --reload-rules
-#  become: true
-#  
-#- name: Rules for realsense trigger
-#  command: udevadm trigger
-#  become: true
+- name: Downloading udev rules for realsense camera
+  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
+  become: true
+ 
+- name: Reloading udev rules
+  shell: |
+    udevadm control --reload-rules
+    udevadm trigger
+  become: true
   
 - name: Install system essentials for the robot
   apt:

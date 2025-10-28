@@ -65,4 +65,6 @@
 - name: Update .bashrc with ROS_DOMAIN_ID
   lineinfile:
     path: /home/{{ ansible_user }}/.bashrc
+    regexp: '^export ROS_DOMAIN_ID='
     line: export ROS_DOMAIN_ID={{ ros_domain_id }}
+    insertafter: EOF
