@@ -7,3 +7,4 @@ ros_domain_id: "{{ id }}"
 ros_ws: /home/{{ ansible_user }}/ros2_ws
 ros_ws_install_file: files_for_robots/.rosinstall
 ros_packages:
+  - image-transport-plugins

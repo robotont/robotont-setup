@@ -1,0 +1,7 @@
+---
+apt_packages:
+  - openssh-server
+  - screen
+  - vim
+  - net-tools
+  - joystick

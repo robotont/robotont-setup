@@ -23,6 +23,16 @@
 - name: Downloading udev rules for realsense camera
   command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
   become: true
+
+# Make robotont mcu always appear as /dev/robotont
+- name: Downloading udev rules for robotont driver
+  copy:
+    src: resources/99-robotont.rules
+    dest: /etc/udev/rules.d/99-robotont.rules
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
  
 - name: Reloading udev rules
   shell: |
@@ -30,14 +40,16 @@
     udevadm trigger
   become: true
   
-- name: Install system essentials for the robot
+- name: Install additional APT packages for the robot
   apt:
     name: "{{ packages }}"
   become: true
   vars:
-    packages:
-      - openssh-server
-      - screen
+    packages: "{{ item }}"
+  with_items: "{{ apt_packages }}"
+  when: (apt_packages is defined) and (apt_packages is not none)
+  become: true
+
 
 #Service setup
 - name: Set up a systemd service for Robotont
