@@ -22,3 +22,7 @@
     local-name: laserscan_to_ranges
     uri: https://github.com/ut-ims-robotics/laserscan_to_ranges.git
     version: 'jazzy-devel'
+- git:
+    local-name: robotont/demo_teleop
+    uri: https://github.com/robotont-demos/demo_teleop.git
+    version: 'jazzy-devel'
