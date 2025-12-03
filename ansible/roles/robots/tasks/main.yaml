@@ -13,10 +13,10 @@
 #  command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
 #  become: false
 
-- name: Give user access to the serial port
+- name: Give user access to the serial ports and joysticks
   user:
     name: "{{ ansible_user }}"
-    groups: dialout
+    groups: dialout,input
     append: yes
   become: true
 
