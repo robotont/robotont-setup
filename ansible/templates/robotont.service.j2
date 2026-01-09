@@ -4,11 +4,11 @@ After=network-online.target
 
 [Service]
 ExecStart=/bin/bash -ic "ros2 launch robotont_support robotont_bringup.launch.py"
-WorkingDirectory=/home/{{ ansible_user }}
+WorkingDirectory=/home/{{ robotont_user }}
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User={{ ansible_user }}
+User={{ robotont_user }}
 
 [Install]
 WantedBy=multi-user.target

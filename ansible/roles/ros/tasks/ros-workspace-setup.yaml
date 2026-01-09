@@ -12,23 +12,28 @@
   file:
     path: "{{ ros_ws }}/src"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ robotont_user }}"
+    group: "{{ robotont_group }}"
     mode: '0775'
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Copy .rosinstall file with owner and permissions for laptop
   copy:
     src: "{{ ros_ws_install_file }}"
     dest: "{{ ros_ws }}/src/.rosinstall"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ robotont_user }}"
+    group: "{{ robotont_group }}"
     mode: '0644'
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Update ROS workspace from .rosinstall
   shell: bash -ic 'vcs import < .rosinstall'
   args:
     chdir: "{{ ros_ws }}/src"
-  become_user: "{{ ansible_user }}"
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Run rosdep update under root user
   command: rosdep update
@@ -60,15 +65,19 @@
   when: rosdep_missing_keys.stdout != ""
   args:
     executable: /bin/bash
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Build ROS workspace 
   shell: bash -ic 'colcon build'
   args: 
     chdir: "{{ ros_ws }}" 
-  become_user: "{{ ansible_user }}"
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Update .bashrc with ROS workspace setup script
   lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
+    path: /home/{{ robotont_user }}/.bashrc
     line: source {{ ros_ws }}/install/setup.bash
-  become_user: "{{ ansible_user }}"
+  become: true
+  become_user: "{{ robotont_user }}"

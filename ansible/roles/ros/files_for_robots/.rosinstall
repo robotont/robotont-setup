@@ -9,11 +9,11 @@
 - git:
     local-name: robotont/robotont_description
     uri: https://github.com/robotont/robotont_description.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
 - git:
-    local-name: robotont/robotont_nuc_description
-    uri: https://github.com/robotont/robotont_nuc_description.git
-    version: 'jazzy-devel'
+    local-name: robotont/robotont_lite_description
+    uri: https://github.com/robotont/robotont_lite_description.git
+    version: 'jazzy'
 - git:
     local-name: robotont/robotont_support
     uri: https://github.com/robotont/robotont_support.git

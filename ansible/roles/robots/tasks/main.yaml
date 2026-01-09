@@ -15,7 +15,7 @@
 
 - name: Give user access to the serial ports and joysticks
   user:
-    name: "{{ ansible_user }}"
+    name: "{{ robotont_user }}"
     groups: dialout,input
     append: yes
   become: true

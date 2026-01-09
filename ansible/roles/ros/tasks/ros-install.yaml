@@ -22,7 +22,7 @@
 # echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 - name: Set ros_architecture variable
   set_fact:
-    ros_architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    ros_architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' }}"
 
 - name: Add ROS repository
   apt_repository:
@@ -56,15 +56,21 @@
 
 - name: Run rosdep update
   command: rosdep update
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Update .bashrc with ROS setup script
   lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
+    path: /home/{{ robotont_user }}/.bashrc
     line: 'source /opt/ros/{{ ros_distribution }}/setup.bash'
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Update .bashrc with ROS_DOMAIN_ID
   lineinfile:
-    path: /home/{{ ansible_user }}/.bashrc
+    path: /home/{{ robotont_user }}/.bashrc
     regexp: '^export ROS_DOMAIN_ID='
     line: export ROS_DOMAIN_ID={{ ros_domain_id }}
     insertafter: EOF
+  become: true
+  become_user: "{{ robotont_user }}"

@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: local
+  become: true
+  vars:
+    robotont_user: peko
+    robotont_password: $6$l/zz4jTWzPqRxVKE$pmUpWJtYdA.n45QdLgPdqsSTdsSYuwK2qEocOPhJb6lD9WU0rmDvGB9HrLVxivHFJ4UpCh2t/cLt9v1r/C4P2.
+
+  tasks:
+    - name: Ensure primary user exists
+      user:
+        name: "{{ robotont_user }}"
+        password: "{{ robotont_password}}"
+        groups: sudo
+        append: true
+        shell: /bin/bash
+        create_home: true
+        home: "/home/{{ robotont_user }}"

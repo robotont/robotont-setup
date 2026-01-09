@@ -4,7 +4,7 @@
 
   #Ask for wifi password
   vars_prompt:
-  - name: wifi_pass
+  - name: wifi_password
     prompt: Password for robotont-{{ id }} WiFi
     private: no
     
