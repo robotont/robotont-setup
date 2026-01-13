@@ -43,7 +43,6 @@
 - name: Install additional APT packages for the robot
   apt:
     name: "{{ packages }}"
-  become: true
   vars:
     packages: "{{ item }}"
   with_items: "{{ apt_packages }}"

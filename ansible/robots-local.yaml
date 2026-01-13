@@ -2,6 +2,17 @@
 - hosts: local
   connection: local 
   # remote_user: "{{ ansible_user }}"
+  pre_tasks:
+    - name: Hold kernel apt packagers to prevent upgrade from overwriting custom kernel image
+      ansible.builtin.dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      loop:
+        - linux-image-raspi
+        - linux-firmware
+        - linux-firmware-raspi
+      become: true
+
   roles:
     - robots
 
