@@ -26,3 +26,7 @@
     local-name: robotont/demo_teleop
     uri: https://github.com/robotont-demos/demo_teleop.git
     version: 'jazzy-devel'
+- git:
+    local-name: rplidar_ros
+    uri: https://github.com/Slamtec/rplidar_ros.git
+    version: 'ros2'
