@@ -13,15 +13,11 @@
 #  command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
 #  become: false
 
-- name: Give user access to the serial ports and joysticks
+- name: Give user access to the serial ports, joysticks, and video devices
   user:
     name: "{{ robotont_user }}"
-    groups: dialout,input
+    groups: dialout,input,video
     append: yes
-  become: true
-
-- name: Downloading udev rules for realsense camera
-  command: wget -O /etc/udev/rules.d/99-realsense-libusb.rules https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
   become: true
 
 # Make robotont mcu always appear as /dev/robotont

@@ -21,6 +21,18 @@
         home: "/home/{{ robotont_user }}"
       when: user_exists.rc != 0
 
+    - name: Enable auto-login for {{ robotont_user }}
+      community.general.ini_file:
+        path: /etc/gdm3/custom.conf
+        section: daemon
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+        no_extra_spaces: true
+      loop:
+        - { option: 'AutomaticLoginEnable', value: 'True' }
+        - { option: 'AutomaticLogin', value: '{{ robotont_user }}' }
+    
+
     - name: Hold kernel apt packagers to prevent upgrade from overwriting custom kernel image
       ansible.builtin.dpkg_selections:
         name: "{{ item }}"
