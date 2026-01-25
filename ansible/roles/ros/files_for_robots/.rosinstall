@@ -1,11 +1,11 @@
 - git:
     local-name: robotont/robotont_driver
     uri: https://github.com/robotont/robotont_driver.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
 - git:
     local-name: robotont/robotont_msgs
     uri: https://github.com/robotont/robotont_msgs.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
 - git:
     local-name: robotont/robotont_description
     uri: https://github.com/robotont/robotont_description.git
@@ -17,15 +17,19 @@
 - git:
     local-name: robotont/robotont_support
     uri: https://github.com/robotont/robotont_support.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
+- git:
+    local-name: robotont/robotont_navigation
+    uri: https://github.com/robotont/robotont_navigation.git
+    version: 'jazzy'
 - git:
     local-name: laserscan_to_ranges
     uri: https://github.com/ut-ims-robotics/laserscan_to_ranges.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
 - git:
     local-name: robotont/demo_teleop
     uri: https://github.com/robotont-demos/demo_teleop.git
-    version: 'jazzy-devel'
+    version: 'jazzy'
 - git:
     local-name: rplidar_ros
     uri: https://github.com/Slamtec/rplidar_ros.git
