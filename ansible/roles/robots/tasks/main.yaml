@@ -70,6 +70,7 @@
     group: root
     mode: '0644'
   become: true
+  tags: service
 
 - name: Enable and start the service
   service:
@@ -77,6 +78,7 @@
     state: started
     enabled: yes
   become: true
+  tags: service
     
 - name: Reconfiguring hostname 
   command: hostnamectl set-hostname robotont-{{ id }}
