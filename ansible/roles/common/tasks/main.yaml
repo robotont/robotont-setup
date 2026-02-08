@@ -1,9 +1,13 @@
 ---
-- name: Update and upgrade apt packages
+- name: Update apt cache
   become: true
   apt:
-    upgrade: yes
     update_cache: yes
+
+- name: Upgrade apt packages
+  become: true
+  apt:
+      upgrade: safe
 
 - name: Install common system essentials
   apt:

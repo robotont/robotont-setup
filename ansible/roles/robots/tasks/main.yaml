@@ -9,6 +9,21 @@
     packages:
       - libreoffice*
 
+- name: Disable services that are not needed for the robot
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items:
+    - cups
+    - cups-browsed
+    - ModemManager
+    - whoopsie
+    - apport
+    - speech-dispatcher
+    - accounts-daemon
+  become: true
+
 #- name: Cleaning up launcher icons
 #  command: gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']"
 #  become: false
@@ -80,7 +95,7 @@
     dest: /etc/netplan/01-network-manager-all.yaml
     owner: root
     group: root
-    mode: '0644'
+    mode: '0600'
   become: true
 
 - name: Apply netplan
