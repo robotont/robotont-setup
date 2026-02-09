@@ -242,7 +242,7 @@
 - name: Clone camera_ros into workspace
   git:
     repo: https://github.com/christianrauch/camera_ros.git
-    dest: /home/{{ robotont_user }}/{{ ros_ws }}/src/camera_ros
+    dest: "{{ ros_ws }}/src/camera_ros"
     force: yes
   become: true
   become_user: "{{ robotont_user }}"
@@ -252,7 +252,7 @@
     source /opt/ros/{{ ros_distribution }}/setup.bash
     colcon build --packages-select camera_ros
   args:
-    chdir: /home/{{ robotont_user }}/{{ ros_ws }}
+    chdir: "{{ ros_ws }}"
     executable: /bin/bash
   become: true
   become_user: "{{ robotont_user }}"
