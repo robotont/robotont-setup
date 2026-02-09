@@ -5,3 +5,4 @@ apt_packages:
   - vim
   - net-tools
   - joystick
+  - python3-pip

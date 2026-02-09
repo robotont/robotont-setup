@@ -1,7 +1,6 @@
 ---
 - hosts: local
   connection: local 
-  # remote_user: "{{ ansible_user }}"
   
   pre_tasks:
     - name: Check if user exists

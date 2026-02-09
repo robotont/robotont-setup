@@ -1,0 +1,271 @@
+---
+- name: Remove conflicting libcamera packages
+  apt:
+    name: "{{ packages }}"
+    state: absent
+    purge: true
+  become: true
+  vars:
+    packages:
+      - libcamera-dev
+      - libcamera0.2
+      - libcamera-tools
+      - python3-libcamera
+      - gstreamer1.0-libcamera
+      - ros-{{ ros_distribution }}-libcamera
+
+- name: Configure boot config for IMX500 camera
+  blockinfile:
+    path: /boot/firmware/config.txt
+    marker: "# {mark} ANSIBLE MANAGED - IMX500 Camera"
+    block: |
+      camera_auto_detect=1
+      display_auto_detect=1
+      dtoverlay=imx500,cam0
+      dtparam=i2c_csi_dsi0=on
+      dtparam=i2c_csi_dsi1=on
+      [pi4]
+      arm_boost=1
+  become: true
+
+- name: Download IMX500 firmware package
+  get_url:
+    url: https://archive.raspberrypi.org/debian/pool/main/i/imx500-firmware/imx500-firmware_0.FF23+2_all.deb
+    dest: /tmp/imx500-firmware_0.FF23+2_all.deb
+    mode: '0644'
+  become: true
+
+- name: Install IMX500 firmware package
+  apt:
+    deb: /tmp/imx500-firmware_0.FF23+2_all.deb
+  become: true
+
+- name: Install libcamera build dependencies
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  become: true
+  vars:
+    packages:
+      - meson
+      - ninja-build
+      - pkg-config
+      - libyaml-dev
+      - python3-yaml
+      - python3-ply
+      - python3-jinja2
+      - libgnutls28-dev
+      - openssl
+      - libudev-dev
+      - libboost-dev
+      - libdrm-dev
+      - libevent-dev
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - qtbase5-dev
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5widgets5
+      - libopencv-dev
+      - git
+
+- name: Create dev directory
+  file:
+    path: /home/{{ robotont_user }}/dev
+    state: directory
+    owner: "{{ robotont_user }}"
+    group: "{{ robotont_user }}"
+    mode: '0755'
+  become: true
+
+- name: Clone libcamera repository
+  git:
+    repo: https://github.com/raspberrypi/libcamera.git
+    dest: /home/{{ robotont_user }}/dev/libcamera
+    force: yes
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Configure libcamera build
+  shell: |
+    meson setup build --prefix=/usr/local --buildtype=release \
+      -Dpipelines=rpi/vc4,rpi/pisp \
+      -Dipas=rpi/vc4,rpi/pisp \
+      -Dv4l2=true \
+      -Dgstreamer=enabled \
+      -Dtest=false \
+      -Dlc-compliance=disabled \
+      -Dcam=enabled \
+      -Dqcam=disabled \
+      -Ddocumentation=disabled \
+      -Dpycamera=disabled
+  args:
+    chdir: /home/{{ robotont_user }}/dev/libcamera
+    creates: /home/{{ robotont_user }}/dev/libcamera/build/build.ninja
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Build libcamera
+  shell: meson compile -C build
+  args:
+    chdir: /home/{{ robotont_user }}/dev/libcamera
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Remove old libcamera libraries before installation
+  shell: |
+    rm -f /usr/local/lib/aarch64-linux-gnu/libcamera*.so*
+    rm -f /usr/local/lib/aarch64-linux-gnu/libcamera-base*.so*
+  become: true
+  ignore_errors: yes
+
+- name: Install libcamera
+  shell: meson install -C build
+  args:
+    chdir: /home/{{ robotont_user }}/dev/libcamera
+  become: true
+
+- name: Update library cache after libcamera install
+  command: ldconfig
+  become: true
+
+- name: Clone rpicam-apps repository
+  git:
+    repo: https://github.com/raspberrypi/rpicam-apps.git
+    dest: /home/{{ robotont_user }}/dev/rpicam-apps
+    force: yes
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Remove old rpicam-apps build directory
+  file:
+    path: /home/{{ robotont_user }}/dev/rpicam-apps/build
+    state: absent
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Configure rpicam-apps build
+  shell: |
+    meson setup build \
+      -Denable_libav=disabled \
+      -Denable_drm=enabled \
+      -Denable_egl=enabled \
+      -Denable_qt=enabled \
+      -Denable_opencv=enabled \
+      -Denable_tflite=disabled \
+      -Denable_hailo=disabled \
+      -Denable_imx500=true
+  args:
+    chdir: /home/{{ robotont_user }}/dev/rpicam-apps
+    creates: /home/{{ robotont_user }}/dev/rpicam-apps/build/build.ninja
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Build rpicam-apps
+  shell: meson compile -C build
+  args:
+    chdir: /home/{{ robotont_user }}/dev/rpicam-apps
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Install rpicam-apps
+  shell: meson install -C build
+  args:
+    chdir: /home/{{ robotont_user }}/dev/rpicam-apps
+  become: true
+
+- name: Update library cache after rpicam-apps install
+  command: ldconfig
+  become: true
+
+- name: Create camera assets directory
+  file:
+    path: /usr/share/rpi-camera-assets
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Copy rpicam-apps assets
+  shell: cp -r /home/{{ robotont_user }}/dev/rpicam-apps/assets/* /usr/share/rpi-camera-assets/
+  args:
+    creates: /usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json
+  become: true
+
+- name: Clone IMX500 models repository
+  git:
+    repo: https://github.com/raspberrypi/imx500-models.git
+    dest: /usr/share/imx500-models
+    force: yes
+  become: true
+
+- name: Configure DMA heap udev rules
+  copy:
+    dest: /etc/udev/rules.d/99-dma_heap.rules
+    content: |
+      SUBSYSTEM=="dma_heap", GROUP="video", MODE="0660"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Reload udev rules
+  shell: |
+    udevadm control --reload-rules
+    udevadm trigger
+  become: true
+
+- name: Add user to video group
+  user:
+    name: "{{ robotont_user }}"
+    groups: video
+    append: yes
+  become: true
+
+- name: Final library cache update
+  command: ldconfig
+  become: true
+
+- name: Install ROS 2 camera dependencies
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: true
+  vars:
+    packages:
+      - ros-{{ ros_distribution }}-camera-info-manager
+      - ros-{{ ros_distribution }}-image-transport
+      - ros-{{ ros_distribution }}-image-transport-plugins
+
+- name: Clone camera_ros into workspace
+  git:
+    repo: https://github.com/christianrauch/camera_ros.git
+    dest: /home/{{ robotont_user }}/{{ ros_ws }}/src/camera_ros
+    force: yes
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Build camera_ros
+  shell: |
+    source /opt/ros/{{ ros_distribution }}/setup.bash
+    colcon build --packages-select camera_ros
+  args:
+    chdir: /home/{{ robotont_user }}/{{ ros_ws }}
+    executable: /bin/bash
+  become: true
+  become_user: "{{ robotont_user }}"
+
+- name: Verify camera detection
+  shell: rpicam-hello --list-cameras
+  register: camera_check
+  become: true
+  become_user: "{{ robotont_user }}"
+  failed_when: "'imx500' not in camera_check.stdout"
+  ignore_errors: yes
+
+- name: Display camera detection results
+  debug:
+    msg: "{{ camera_check.stdout }}"
+  when: camera_check is defined

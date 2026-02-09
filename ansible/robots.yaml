@@ -1,6 +1,47 @@
 ---
 - hosts: robots
-  #remote_user: "{{ ansible_user }}"
+
+
+  pre_tasks:
+    - name: Check if user exists
+      command: id {{ robotont_user }}
+      register: user_exists
+      changed_when: false
+      failed_when: false
+
+    - name: Ensure primary user exists
+      user:
+        name: "{{ robotont_user }}"
+        password: "{{ robotont_password | password_hash('sha512') }}"
+        groups: sudo
+        append: true
+        shell: /bin/bash
+        create_home: true
+        home: "/home/{{ robotont_user }}"
+      when: user_exists.rc != 0
+
+    - name: Enable auto-login for {{ robotont_user }}
+      community.general.ini_file:
+        path: /etc/gdm3/custom.conf
+        section: daemon
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+        no_extra_spaces: true
+      loop:
+        - { option: 'AutomaticLoginEnable', value: 'True' }
+        - { option: 'AutomaticLogin', value: '{{ robotont_user }}' }
+    
+
+    - name: Hold kernel apt packagers to prevent upgrade from overwriting custom kernel image
+      ansible.builtin.dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      loop:
+        - linux-image-raspi
+        - linux-firmware
+        - linux-firmware-raspi
+      become: true
+
   roles:
     - robots
 

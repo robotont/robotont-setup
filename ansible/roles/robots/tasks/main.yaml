@@ -61,6 +61,10 @@
   become: true
 
 
+- name: Set up rpi ai camera support
+  import_tasks: imx500_camera.yaml
+  tags: camera
+
 #Service setup
 - name: Set up a systemd service for Robotont
   template:
