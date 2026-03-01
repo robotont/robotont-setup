@@ -1,0 +1,27 @@
+[connection]
+id=robotont-{{ id }}-hotspot
+type=wifi
+interface-name=wlan0
+autoconnect=true
+autoconnect-priority=-1
+
+[wifi]
+ssid=robotont-{{ id }}
+mode=ap
+
+[wifi-security]
+key-mgmt=wpa-psk
+psk={{ wifi_hotspot_password }}
+pmf=2
+group=ccmp;
+pairwise=ccmp;
+proto=rsn;
+
+[ipv4]
+method=shared
+address1=192.168.200.{{ id }}/24
+
+[ipv6]
+method=ignore
+
+[proxy]

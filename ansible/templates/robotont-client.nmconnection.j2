@@ -1,0 +1,22 @@
+[connection]
+id={{ wifi_client_ssid }}
+type=wifi
+interface-name=wlan0
+autoconnect=true
+autoconnect-priority=100
+
+[wifi]
+ssid={{ wifi_client_ssid }}
+mode=infrastructure
+
+[wifi-security]
+key-mgmt=wpa-psk
+psk={{ wifi_client_password }}
+
+[ipv4]
+method=auto
+
+[ipv6]
+method=disabled
+
+[proxy]

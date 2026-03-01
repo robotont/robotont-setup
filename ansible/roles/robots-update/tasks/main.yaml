@@ -1,22 +1,7 @@
----
-- name: Reconfiguring hostname 
+- name: Reconfiguring hostname
   command: hostnamectl set-hostname robotont-{{ id }}
   become: true
-# - name: Install updates for the laptops
-#  apt:
-#    name: "{{ packages }}"
-#  become: true
-#  vars:
-#    packages:
-#      - ros-jazzy-teb-local-planner
 
-# - name: Configuring new planner
-#  lineinfile:
-#    path: /home/{{ ansible_user }}/ros2_ws/src/robotont/robotont_navigation/config/planner_local_params.yaml
-#    regexp: '^TrajectoryPlannerROS:'
-#    line: 'TEBPlannerROS:'
-#  become: true
-        
 - name: Configuring hostname in /etc/hosts
   lineinfile:
     path: /etc/hosts
@@ -24,24 +9,33 @@
     line: 127.0.1.1   robotont-{{ id }}
   become: true
 
-- name: Configuring /etc/netplan/01-network-manager-all.yaml
+- name: Deploy AP wifi profile
   template:
-    src: Testik_netplan.j2
-    dest: /etc/netplan/01-network-manager-all.yaml
+    src: robotont-ap.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/robotont-ap.nmconnection
     owner: root
     group: root
-    mode: '0644'
+    mode: '0600'
   become: true
 
-- name: Apply netplan
-  command: netplan apply
+- name: Deploy client wifi profile
+  template:
+    src: robotont-client.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/robotont-client.nmconnection
+    owner: root
+    group: root
+    mode: '0600'
   become: true
 
-- name: Apply connection
-  command: nmcli connection up netplan-wlp58s0-robotont-{{ id }}
+- name: Reload NetworkManager connections
+  command: nmcli connection reload
   become: true
 
-- name: Unconditionally reboot the machine with all defaults
+- name: Prefer client connection if available
+  command: "nmcli connection up {{ wifi_client_ssid }}"
+  become: true
+
+- name: Reboot the machine
   reboot:
-  become: yes
+  become: true
   ignore_errors: true
