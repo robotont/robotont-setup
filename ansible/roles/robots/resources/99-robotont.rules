@@ -1,5 +1,8 @@
 # Map robotont mcu to appear as /dev/robotont
 SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="robotont", MODE="0666"
 
+# Map robotont mcu to appear as /dev/lidar
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="lidar", MODE="0666"
+
 # Use serial number to distinguish robotont from another STM controller on the system.
 #SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", ATTRS{serial}=="123456789", SYMLINK+="robotont", MODE="0666"

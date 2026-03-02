@@ -44,12 +44,14 @@
     group: root
     mode: '0644'
   become: true
+  tags: udev
  
 - name: Reloading udev rules
   shell: |
     udevadm control --reload-rules
     udevadm trigger
   become: true
+  tags: udev
   
 - name: Install additional APT packages for the robot
   apt:
