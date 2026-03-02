@@ -89,7 +89,7 @@
 
 - name: Configure libcamera build
   shell: |
-    meson setup build --prefix=/usr/local --buildtype=release \
+    meson setup build --prefix=/usr/local --includedir=include --buildtype=release \
       -Dpipelines=rpi/vc4,rpi/pisp \
       -Dipas=rpi/vc4,rpi/pisp \
       -Dv4l2=true \
@@ -247,9 +247,11 @@
   become: true
   become_user: "{{ robotont_user }}"
 
-- name: Build camera_ros
+- name: Build camera_ros with path hints
   shell: |
     source /opt/ros/{{ ros_distribution }}/setup.bash
+    #export CPATH=/usr/local/include/libcamera:$CPATH
+    #export PKG_CONFIG_PATH=/usr/local/lib/aarch64-linux-gnu/pkgconfig:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
     colcon build --packages-select camera_ros
   args:
     chdir: "{{ ros_ws }}"
