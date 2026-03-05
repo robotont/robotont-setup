@@ -89,7 +89,7 @@
 
 - name: Configure libcamera build
   shell: |
-    meson setup build --prefix=/usr/local --includedir=include --buildtype=release \
+    meson setup build --prefix=/usr --includedir=include --buildtype=release \
       -Dpipelines=rpi/vc4,rpi/pisp \
       -Dipas=rpi/vc4,rpi/pisp \
       -Dv4l2=true \
@@ -117,8 +117,21 @@
   shell: |
     rm -f /usr/local/lib/aarch64-linux-gnu/libcamera*.so*
     rm -f /usr/local/lib/aarch64-linux-gnu/libcamera-base*.so*
+    rm -f /usr/lib/aarch64-linux-gnu/libcamera*.so*
+    rm -f /usr/lib/aarch64-linux-gnu/libcamera-base*.so*
   become: true
   ignore_errors: yes
+
+- name: Clean camera_ros build cache
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ ros_ws }}/build/camera_ros"
+    - "{{ ros_ws }}/install/camera_ros"
+    - "{{ ros_ws }}/log/camera_ros"
+  become: true
+  become_user: "{{ robotont_user }}"
 
 - name: Install libcamera
   shell: meson install -C build
