@@ -35,6 +35,13 @@
   become: true
   become_user: "{{ robotont_user }}"
 
+- name: Update ROS workspace by pulling latest changes from git repositories
+  shell: bash -ic 'vcs pull'
+  args:
+    chdir: "{{ ros_ws }}/src"
+  become: true
+  become_user: "{{ robotont_user }}"
+
 - name: Run rosdep update under root user
   command: rosdep update
   become: true
