@@ -1,0 +1,74 @@
+---
+- name: Unpair all Bluetooth gamepads
+  hosts: robots
+  tags: unpair
+  tasks:
+    - name: Remove all paired gamepad/joystick devices
+      shell: |
+        bluetoothctl devices | while IFS= read -r device_line; do
+          mac=$(echo "$device_line" | awk '{print $2}')
+          [ -z "$mac" ] && continue
+          info=$(bluetoothctl info "$mac" 2>/dev/null)
+          if echo "$info" | grep -qi "input-gaming\|joystick\|gamepad\|controller"; then
+            bluetoothctl remove "$mac"
+            echo "Removed: $mac $(echo "$info" | grep 'Name:' | awk -F': ' '{print $2}')"
+          fi
+        done
+      args:
+        executable: /bin/bash
+      become: true
+      register: unpair_result
+      ignore_errors: yes
+
+    - name: Show unpair results
+      debug:
+        msg: "{{ unpair_result.stdout_lines }}"
+
+- name: Pair Bluetooth gamepad
+  hosts: robots
+  tasks:
+    - name: Scan and pair first gamepad/joystick found (30s window)
+      shell: |
+        bluetoothctl power on
+
+        # Keep bluetoothctl alive via a FIFO so bluetoothd keeps scanning
+        TMPFIFO=$(mktemp -u)
+        TMPOUT=$(mktemp)
+        mkfifo "$TMPFIFO"
+        bluetoothctl < "$TMPFIFO" > "$TMPOUT" 2>&1 &
+        BT_PID=$!
+        exec 3>"$TMPFIFO"
+        printf "scan on\n" >&3
+
+        # React to new device events immediately as they appear
+        timeout 30 tail -f "$TMPOUT" | while IFS= read -r raw_line; do
+          line=$(echo "$raw_line" | sed 's/\x1B\[[0-9;]*m//g')
+          echo "$line" | grep -q '\[NEW\] Device' || continue
+
+          mac=$(echo "$line" | grep -oE '([0-9A-F]{2}:){5}[0-9A-F]{2}')
+          [ -z "$mac" ] && continue
+
+          info=$(bluetoothctl info "$mac" 2>/dev/null)
+          echo "Found: $mac | $(echo "$info" | grep -E 'Name:|Icon:|Class:' | tr '\n' ' ')"
+
+          if echo "$info $line" | grep -qi "input-gaming\|joystick\|gamepad\|controller"; then
+            printf "trust %s\npair %s\nconnect %s\n" "$mac" "$mac" "$mac" >&3
+            echo "Paired gamepad: $mac"
+            break
+          fi
+        done
+
+        printf "scan off\nquit\n" >&3
+        exec 3>&-
+        wait $BT_PID 2>/dev/null
+        rm -f "$TMPFIFO" "$TMPOUT"
+      args:
+        executable: /bin/bash
+      become: true
+      register: pair_result
+      ignore_errors: yes
+
+    - name: Show pairing results
+      debug:
+        msg: "{{ pair_result.stdout_lines }}"
+
