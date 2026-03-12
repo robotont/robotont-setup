@@ -61,6 +61,7 @@
       - libboost-dev
       - libdrm-dev
       - libevent-dev
+      - libexif-dev
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
       - qtbase5-dev
@@ -81,7 +82,8 @@
 
 - name: Clone libcamera repository
   git:
-    repo: https://github.com/raspberrypi/libcamera.git
+    #repo: https://github.com/raspberrypi/libcamera.git
+    repo: https://github.com/kimihiro-mori/libcamera.git
     dest: /home/{{ robotont_user }}/dev/libcamera
     force: yes
   become: true
@@ -99,7 +101,7 @@
       -Dcam=enabled \
       -Dqcam=disabled \
       -Ddocumentation=disabled \
-      -Dpycamera=disabled
+      -Dpycamera=enabled
   args:
     chdir: /home/{{ robotont_user }}/dev/libcamera
     creates: /home/{{ robotont_user }}/dev/libcamera/build/build.ninja
@@ -161,7 +163,7 @@
 - name: Configure rpicam-apps build
   shell: |
     meson setup build \
-      -Denable_libav=disabled \
+      -Denable_libav=enabled \
       -Denable_drm=enabled \
       -Denable_egl=enabled \
       -Denable_qt=enabled \
