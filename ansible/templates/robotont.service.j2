@@ -3,7 +3,7 @@ Description=Start Robotont ROS bringup nodes
 After=network-online.target
 
 [Service]
-ExecStart=/bin/bash -ic "ros2 launch robotont_support robotont_bringup.launch.py namespace:=rt{{ id }} generation:=lite3 lidar:=true camera:=false"
+ExecStart=/bin/bash -ic "ros2 launch robotont_support robotont_bringup.launch.py namespace:=rt{{ id }} generation:=3lite lidar:=true camera:=true"
 WorkingDirectory=/home/{{ robotont_user }}
 StandardOutput=inherit
 StandardError=inherit
