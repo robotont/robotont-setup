@@ -40,6 +40,9 @@
         exec 3>"$TMPFIFO"
         printf "scan on\n" >&3
 
+        # Snapshot existing joystick devices before pairing
+        JS_BEFORE=$(ls /dev/input/js* 2>/dev/null)
+
         # React to new device events immediately as they appear
         timeout 30 tail -f "$TMPOUT" | while IFS= read -r raw_line; do
           line=$(echo "$raw_line" | sed 's/\x1B\[[0-9;]*m//g')
@@ -53,7 +56,22 @@
 
           if echo "$info $line" | grep -qi "input-gaming\|joystick\|gamepad\|controller"; then
             printf "trust %s\npair %s\nconnect %s\n" "$mac" "$mac" "$mac" >&3
-            echo "Paired gamepad: $mac"
+            echo "Pairing gamepad: $mac"
+            # Wait for connection to complete before exiting
+            timeout 15 tail -f "$TMPOUT" | while IFS= read -r conn_line; do
+              echo "$conn_line" | grep -qi "Connection successful\|Connected: yes" && break
+              echo "$conn_line" | grep -qi "Failed to connect\|not available\|timeout" && break
+            done
+            # Wait for kernel HID driver to create the input device
+            for i in $(seq 1 10); do
+              JS_AFTER=$(ls /dev/input/js* 2>/dev/null)
+              NEW_JS=$(comm -13 <(echo "$JS_BEFORE" | sort) <(echo "$JS_AFTER" | sort))
+              if [ -n "$NEW_JS" ]; then
+                echo "Gamepad ready at: $NEW_JS"
+                break
+              fi
+              sleep 1
+            done
             break
           fi
         done
