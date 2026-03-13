@@ -40,16 +40,28 @@
     deb: /tmp/imx500-firmware_0.FF23+2_all.deb
   become: true
 
-- name: Install FFmpeg packages from Ubuntu repos
+- name: Add FFmpeg 7 PPA
+  apt_repository:
+    repo: ppa:ubuntuhandbook1/ffmpeg7
+    state: present
+  become: true
+
+- name: Update apt cache after adding FFmpeg 7 PPA
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install FFmpeg 7 development packages
   apt:
     name:
+      - ffmpeg
       - libavcodec-dev
       - libavdevice-dev
       - libavformat-dev
       - libavutil-dev
       - libswresample-dev
       - libswscale-dev
-    state: present
+    state: latest
   become: true
 
 - name: Install libcamera build dependencies
@@ -83,6 +95,13 @@
       - libqt5widgets5
       - libopencv-dev
       - git
+
+- name: Check libavcodec version
+  shell: pkg-config --modversion libavcodec
+  register: avcodec_version
+
+- debug:
+    msg: "Detected libavcodec version: {{ avcodec_version.stdout }}"
 
 - name: Create dev directory
   file:

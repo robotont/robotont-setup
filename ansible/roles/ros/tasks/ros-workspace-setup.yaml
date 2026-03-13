@@ -8,7 +8,13 @@
       - "{{ ros_ws }}/install"
       - "{{ ros_ws }}/logs"
 
-- name: Create ROS workspace folders 
+- name: Reset workspace - remove src folder in {{ ros_ws }}
+  file:
+      path: "{{ ros_ws }}/src"
+      state: absent
+  when: reset_workspace | default(false) | bool
+
+- name: Create ROS workspace folders
   file:
     path: "{{ ros_ws }}/src"
     state: directory
@@ -36,11 +42,24 @@
   become_user: "{{ robotont_user }}"
 
 - name: Update ROS workspace by pulling latest changes from git repositories
-  shell: bash -ic 'vcs pull'
+  shell: |
+    bash -ic '
+      output=$(vcs pull 2>&1)
+      echo "$output"
+      conflicts=$(echo "$output" | awk "/^=== .*===\$/{repo=\$0} /Your local changes/{print repo}")
+      if [ -n "$conflicts" ]; then
+        echo "--- Skipped due to local changes ---"
+        echo "$conflicts"
+      fi
+    '
   args:
     chdir: "{{ ros_ws }}/src"
   become: true
   become_user: "{{ robotont_user }}"
+  register: vcs_pull_result
+  failed_when: >
+    vcs_pull_result.rc != 0 and
+    'No such file or directory' not in vcs_pull_result.stderr
 
 - name: Run rosdep update under root user
   command: rosdep update
