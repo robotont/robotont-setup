@@ -40,6 +40,18 @@
     deb: /tmp/imx500-firmware_0.FF23+2_all.deb
   become: true
 
+- name: Install FFmpeg packages from Ubuntu repos
+  apt:
+    name:
+      - libavcodec-dev
+      - libavdevice-dev
+      - libavformat-dev
+      - libavutil-dev
+      - libswresample-dev
+      - libswscale-dev
+    state: present
+  become: true
+
 - name: Install libcamera build dependencies
   apt:
     name: "{{ packages }}"
@@ -57,6 +69,7 @@
       - python3-jinja2
       - libgnutls28-dev
       - openssl
+      - libavdevice-dev
       - libudev-dev
       - libboost-dev
       - libdrm-dev
@@ -82,12 +95,27 @@
 
 - name: Clone libcamera repository
   git:
-    #repo: https://github.com/raspberrypi/libcamera.git
-    repo: https://github.com/kimihiro-mori/libcamera.git
+    repo: https://github.com/raspberrypi/libcamera.git
     dest: /home/{{ robotont_user }}/dev/libcamera
     force: yes
   become: true
   become_user: "{{ robotont_user }}"
+
+# - name: Remove old libcamera build directory
+#   file:
+#     path: /home/{{ robotont_user }}/dev/libcamera/build
+#     state: absent
+#   become: true
+#   become_user: "{{ robotont_user }}"
+
+- name: Nuke old libcamera headers to prevent mismatches
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /usr/local/include/libcamera
+    - /usr/include/libcamera
+  become: true
 
 - name: Configure libcamera build
   shell: |
@@ -121,6 +149,11 @@
     rm -f /usr/local/lib/aarch64-linux-gnu/libcamera-base*.so*
     rm -f /usr/lib/aarch64-linux-gnu/libcamera*.so*
     rm -f /usr/lib/aarch64-linux-gnu/libcamera-base*.so*
+    rm -rf /usr/local/lib/cmake/libcamera
+    rm -rf /usr/local/share/cmake/libcamera
+    rm -rf /usr/local/lib/aarch64-linux-gnu/pkgconfig/libcamera*.pc
+    rm -rf /usr/local/lib/pkgconfig/libcamera*.pc
+    rm -rf /usr/local/share/pkgconfig/libcamera*.pc
   become: true
   ignore_errors: yes
 
@@ -149,6 +182,7 @@
   git:
     repo: https://github.com/raspberrypi/rpicam-apps.git
     dest: /home/{{ robotont_user }}/dev/rpicam-apps
+    version: v1.10.1
     force: yes
   become: true
   become_user: "{{ robotont_user }}"
@@ -162,6 +196,7 @@
 
 - name: Configure rpicam-apps build
   shell: |
+    export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
     meson setup build \
       -Denable_libav=enabled \
       -Denable_drm=enabled \
@@ -265,8 +300,7 @@
 - name: Build camera_ros with path hints
   shell: |
     source /opt/ros/{{ ros_distribution }}/setup.bash
-    #export CPATH=/usr/local/include/libcamera:$CPATH
-    #export PKG_CONFIG_PATH=/usr/local/lib/aarch64-linux-gnu/pkgconfig:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+    export PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
     colcon build --packages-select camera_ros
   args:
     chdir: "{{ ros_ws }}"
